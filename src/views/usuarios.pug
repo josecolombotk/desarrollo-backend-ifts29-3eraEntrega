@@ -1,256 +1,214 @@
-style.
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f5f7fb;
-  }
-  .sidebar {
-    position: fixed;
-    top: 0; left: 0; bottom: 0;
-    width: 80px;
-    background: linear-gradient(180deg, #0a3c64, #0f4c75);
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px 0;
-  }
-  .sidebar .logo { font-weight: bold; margin-bottom: 20px; }
-  .sidebar nav a {
-    width: 48px; height: 48px;
-    display: flex; align-items: center; justify-content: center;
-    color: #fff; text-decoration: none;
-    border-radius: 10px; margin: 6px 0;
-    border: 1px solid rgba(255,255,255,0.15);
-    background: rgba(255,255,255,0.08);
-  }
-  .sidebar nav a:hover { background: rgba(255,255,255,0.22); }
-  .main { margin-left: 80px; padding: 20px; }
-  .container {
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .header-left {
-    display: flex; align-items: center; gap: 10px;
-  }
-  .header-left i { color: #0f4c75; }
-  .page-title { margin: 0; }
-  .page-sub { color: #666; margin: 4px 0; }
-  .actions { display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; }
-  .action-button {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 10px 12px; border-radius: 8px;
-    text-decoration: none; color: #0f4c75;
-    border: 1px solid rgba(10,60,100,0.15);
-    background: #fff;
-  }
-  .form-section {
-    background: #fff; border: 1px solid rgba(10,60,100,0.08);
-    border-radius: 10px; padding: 16px; margin: 10px 0;
-  }
-  .form-group { margin-bottom: 12px; }
-  .form-group label { display: block; font-weight: bold; margin-bottom: 6px; }
-  .form-group input, .form-group select { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #d0d7e3; }
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .submit-button { background: #0f4c75; color: #fff; border: none; border-radius: 8px; padding: 10px 14px; cursor: pointer; }
-  .submit-button:hover { background: #0a3c64; }
-  .result { margin-top: 12px; padding: 10px; border-radius: 8px; border-left: 4px solid #999; background: #eef2f7; }
-  .result.success { background: #c6f6d5; border-left-color: #48bb78; color: #22543d; }
-  .result.error { background: #fed7d7; border-left-color: #f56565; color: #7b341e; }
+doctype html
+html(lang='es')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title= title
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css')
+    include partials/adminSidebarStyles.pug
+    style.
+      /* Extensiones propias de Usuarios (manteniendo plantilla admin) */
+      .main { padding: 20px; }
+      .header-left i { color: #0f4c75; }
+      .page-title { margin: 0; }
+      .page-sub { color: #666; margin: 4px 0; }
+      .actions { display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; }
+      .action-button {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 10px 12px; border-radius: 8px;
+        text-decoration: none; color: #0f4c75;
+        border: 1px solid rgba(10,60,100,0.15);
+        background: #fff;
+      }
+      .form-section {
+        background: #fff; border: 1px solid rgba(10,60,100,0.08);
+        border-radius: 10px; padding: 16px; margin: 10px 0;
+      }
+      .form-group { margin-bottom: 12px; }
+      .form-group label { display: block; font-weight: bold; margin-bottom: 6px; }
+      .form-group input, .form-group select { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #d0d7e3; }
+      .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      .submit-button { background: #0f4c75; color: #fff; border: none; border-radius: 8px; padding: 10px 14px; cursor: pointer; }
+      .submit-button:hover { background: #0a3c64; }
+      .result { margin-top: 12px; padding: 10px; border-radius: 8px; border-left: 4px solid #999; background: #eef2f7; }
+      .result.success { background: #c6f6d5; border-left-color: #48bb78; color: #22543d; }
+      .result.error { background: #fed7d7; border-left-color: #f56565; color: #7b341e; }
 
-body
-  .sidebar
-    .logo SI
-    nav
-      a(href='/' title='Inicio')
-        i.fas.fa-house
-      if !user || user.role === 'Administrativo'
-        a(href='/pacientes' title='Pacientes')
-          i.fas.fa-user-injured
-        a(href='/medicos' title='Médicos')
-          i.fas.fa-user-md
-        a(href='/turnos' title='Turnos')
-          i.fas.fa-calendar-check
-      if user && user.role === 'Administrativo'
-        a(href='/usuarios' title='Usuarios')
+  body
+    include partials/sidebar.pug
+    +sidebar(user)
+
+    .main
+      .container
+        .header-left
           i.fas.fa-users-cog
-      else if user && user.role === 'Medico'
-        a(href='/pacientes' title='Pacientes')
-          i.fas.fa-user-injured
-      else if user && user.role === 'Paciente'
-        a(href='/turnos' title='Turnos')
-          i.fas.fa-calendar-check
+          h1.page-title Gestión de Usuarios
+          p.page-sub Desarrollo Backend - Grupo 4
+          if user
+            p.page-sub Bienvenido, #{user.username} · Rol: #{user.role}
+            a(href='#', onclick='logout()') Cerrar sesión
+          else
+            a(href='/login') Iniciar sesión
 
-  .main
-    .container
-      .header-left
-        i.fas.fa-users-cog
-        h1.page-title Gestión de Usuarios
-        p.page-sub Desarrollo Backend - Grupo 4
-        if user
-          p.page-sub Bienvenido, #{user.username} · Rol: #{user.role}
-          a(href='#', onclick='logout()') Cerrar sesión
-        else
-          a(href='/login') Iniciar sesión
+        .actions
+          if user && user.role === 'Administrativo'
+            a.action-button.create(href='#' onclick='showCreate()')
+              i.icon.fas.fa-user-plus
+              | Crear Usuario
+          else
+            p.page-sub Solo personal administrativo puede gestionar usuarios.
 
-      .actions
         if user && user.role === 'Administrativo'
-          a.action-button.create(href='#' onclick='showCreate()')
-            i.icon.fas.fa-user-plus
-            | Crear Usuario
-        else
-          p.page-sub Solo personal administrativo puede gestionar usuarios.
-
-      if user && user.role === 'Administrativo'
-        .form-section#create-user-form
-          h3
-            i.fas.fa-user-plus
-            | Crear Nuevo Usuario
-          form(onsubmit='createUsuario(event)')
-            .two-col
+          .form-section#create-user-form
+            h3
+              i.fas.fa-user-plus
+              | Crear Nuevo Usuario
+            form(onsubmit='createUsuario(event)')
+              .two-col
+                .form-group
+                  label(for='username') Usuario
+                  input(type='text' id='username' name='username' required)
+                .form-group
+                  label(for='password') Contraseña
+                  input(type='password' id='password' name='password' required)
               .form-group
-                label(for='username') Usuario
-                input(type='text' id='username' name='username' required)
-              .form-group
-                label(for='password') Contraseña
-                input(type='password' id='password' name='password' required)
-            .form-group
-              label(for='role') Rol
-              select(id='role' name='role' required onchange='onRoleChange()')
-                option(value='') Seleccione rol...
-                option(value='Administrativo') Administrativo
-                option(value='Medico') Médico
-                option(value='Paciente') Paciente
-            .form-group#medicoRefGroup(style='display:none')
-              label(for='medicoRef') Seleccionar Médico (para usuarios rol Médico)
-              select(id='medicoRef' name='medicoId')
-                option(value='') Seleccionar médico...
-            .form-group#pacienteRefGroup(style='display:none')
-              label(for='pacienteRef') Seleccionar Paciente (para usuarios rol Paciente)
-              select(id='pacienteRef' name='pacienteId')
-                option(value='') Seleccionar paciente...
-            button.submit-button(type='submit') Crear Usuario
-          .result#create-result
+                label(for='role') Rol
+                select(id='role' name='role' required onchange='onRoleChange()')
+                  option(value='') Seleccione rol...
+                  option(value='Administrativo') Administrativo
+                  option(value='Medico') Médico
+                  option(value='Paciente') Paciente
+              .form-group#medicoRefGroup(style='display:none')
+                label(for='medicoRef') Seleccionar Médico (para usuarios rol Médico)
+                select(id='medicoRef' name='medicoId')
+                  option(value='') Seleccionar médico...
+              .form-group#pacienteRefGroup(style='display:none')
+                label(for='pacienteRef') Seleccionar Paciente (para usuarios rol Paciente)
+                select(id='pacienteRef' name='pacienteId')
+                  option(value='') Seleccionar paciente...
+              button.submit-button(type='submit') Crear Usuario
+            .result#create-result
 
-script.
-  function showResult(elemId, message, success){
-    const el = document.getElementById(elemId);
-    el.className = 'result ' + (success ? 'success' : 'error');
-    el.innerHTML = message;
-  }
-
-  function showCreate(){
-    document.getElementById('create-user-form').style.display = 'block';
-  }
-
-  async function loadMedicos(){
-    try {
-      const res = await fetch('/api/medicos');
-      const data = await res.json();
-      const sel = document.getElementById('medicoRef');
-      sel.innerHTML = `<option value=''>Seleccionar médico...</option>`;
-      if (res.ok && Array.isArray(data.data)){
-        data.data.forEach(m => {
-          const id = m._id || m.IdMedico;
-          const opt = document.createElement('option');
-          opt.value = id; opt.textContent = `${m.Nombre} ${m.Apellido} (${m.Especialidad})`;
-          sel.appendChild(opt);
-        });
+    script.
+      function showResult(elemId, message, success){
+        const el = document.getElementById(elemId);
+        el.className = 'result ' + (success ? 'success' : 'error');
+        el.innerHTML = message;
       }
-    } catch(err){ console.error(err); }
-  }
 
-  async function loadPacientes(){
-    try {
-      const res = await fetch('/api/pacientes');
-      const data = await res.json();
-      const sel = document.getElementById('pacienteRef');
-      sel.innerHTML = `<option value=''>Seleccionar paciente...</option>`;
-      if (res.ok && Array.isArray(data.data)){
-        data.data.forEach(p => {
-          const id = p._id || p.IdPaciente;
-          const opt = document.createElement('option');
-          opt.value = id; opt.textContent = `${p.Nombre} ${p.Apellido} (DNI ${p.DNI})`;
-          sel.appendChild(opt);
-        });
+      function showCreate(){
+        document.getElementById('create-user-form').style.display = 'block';
       }
-    } catch(err){ console.error(err); }
-  }
 
-  function onRoleChange(){
-    const role = document.getElementById('role').value;
-    const medicoGroup = document.getElementById('medicoRefGroup');
-    const pacienteGroup = document.getElementById('pacienteRefGroup');
-    if (role === 'Medico'){
-      medicoGroup.style.display = '';
-      pacienteGroup.style.display = 'none';
-      loadMedicos();
-    } else if (role === 'Paciente'){
-      medicoGroup.style.display = 'none';
-      pacienteGroup.style.display = '';
-      loadPacientes();
-    } else {
-      medicoGroup.style.display = 'none';
-      pacienteGroup.style.display = 'none';
-    }
-  }
-
-  async function createUsuario(event){
-    event.preventDefault();
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value;
-    const role = document.getElementById('role').value;
-    const medicoId = document.getElementById('medicoRef').value || null;
-    const pacienteId = document.getElementById('pacienteRef').value || null;
-
-    if (!username || !password || !role){
-      showResult('create-result', 'Complete usuario, contraseña y rol', false);
-      return;
-    }
-    if (role === 'Medico' && !medicoId){
-      showResult('create-result', 'Seleccione un médico para el usuario con rol Médico', false);
-      return;
-    }
-    if (role === 'Paciente' && !pacienteId){
-      showResult('create-result', 'Seleccione un paciente para el usuario con rol Paciente', false);
-      return;
-    }
-
-    try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password, role, medicoId, pacienteId })
-      });
-      const result = await response.json();
-      if (response.ok){
-        const u = result.data;
-        showResult('create-result', `<strong>Usuario creado:</strong> ID ${u.id} · ${u.username} · Rol ${u.role}`, true);
-        document.getElementById('username').value = '';
-        document.getElementById('password').value = '';
-        document.getElementById('role').value = '';
-        document.getElementById('medicoRef').value = '';
-        document.getElementById('pacienteRef').value = '';
-        onRoleChange();
-      } else {
-        showResult('create-result', result.message || 'Error al crear usuario', false);
+      async function loadMedicos(){
+        try {
+          const res = await fetch('/api/medicos');
+          const data = await res.json();
+          const sel = document.getElementById('medicoRef');
+          sel.innerHTML = `<option value=''>Seleccionar médico...</option>`;
+          if (res.ok && Array.isArray(data.data)){
+            data.data.forEach(m => {
+              const id = m._id || m.IdMedico;
+              const opt = document.createElement('option');
+              opt.value = id; opt.textContent = `${m.Nombre} ${m.Apellido} (${m.Especialidad})`;
+              sel.appendChild(opt);
+            });
+          }
+        } catch(err){ console.error(err); }
       }
-    } catch(error){
-      showResult('create-result', 'Error de conexión: ' + error.message, false);
-    }
-  }
 
-  async function logout(){
-    try {
-      const response = await fetch('/api/auth/logout', { method: 'POST' });
-      const data = await response.json();
-      if (response.ok) {
-        localStorage.removeItem('authToken');
-        window.location.href = '/login';
-      } else {
-        alert(data.message || 'Error al cerrar sesión');
+      async function loadPacientes(){
+        try {
+          const res = await fetch('/api/pacientes');
+          const data = await res.json();
+          const sel = document.getElementById('pacienteRef');
+          sel.innerHTML = `<option value=''>Seleccionar paciente...</option>`;
+          if (res.ok && Array.isArray(data.data)){
+            data.data.forEach(p => {
+              const id = p._id || p.IdPaciente;
+              const opt = document.createElement('option');
+              opt.value = id; opt.textContent = `${p.Nombre} ${p.Apellido} (DNI ${p.DNI})`;
+              sel.appendChild(opt);
+            });
+          }
+        } catch(err){ console.error(err); }
       }
-    } catch (e) {
-      alert('Error de conexión: ' + e.message);
-    }
-  }
+
+      function onRoleChange(){
+        const role = document.getElementById('role').value;
+        const medicoGroup = document.getElementById('medicoRefGroup');
+        const pacienteGroup = document.getElementById('pacienteRefGroup');
+        if (role === 'Medico'){
+          medicoGroup.style.display = '';
+          pacienteGroup.style.display = 'none';
+          loadMedicos();
+        } else if (role === 'Paciente'){
+          medicoGroup.style.display = 'none';
+          pacienteGroup.style.display = '';
+          loadPacientes();
+        } else {
+          medicoGroup.style.display = 'none';
+          pacienteGroup.style.display = 'none';
+        }
+      }
+
+      async function createUsuario(event){
+        event.preventDefault();
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+        const role = document.getElementById('role').value;
+        const medicoId = document.getElementById('medicoRef').value || null;
+        const pacienteId = document.getElementById('pacienteRef').value || null;
+
+        if (!username || !password || !role){
+          showResult('create-result', 'Complete usuario, contraseña y rol', false);
+          return;
+        }
+        if (role === 'Medico' && !medicoId){
+          showResult('create-result', 'Seleccione un médico para el usuario con rol Médico', false);
+          return;
+        }
+        if (role === 'Paciente' && !pacienteId){
+          showResult('create-result', 'Seleccione un paciente para el usuario con rol Paciente', false);
+          return;
+        }
+
+        try {
+          const response = await fetch('/api/auth/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password, role, medicoId, pacienteId })
+          });
+          const result = await response.json();
+          if (response.ok){
+            const u = result.data;
+            showResult('create-result', `<strong>Usuario creado:</strong> ID ${u.id} · ${u.username} · Rol ${u.role}`, true);
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('role').value = '';
+            document.getElementById('medicoRef').value = '';
+            document.getElementById('pacienteRef').value = '';
+            onRoleChange();
+          } else {
+            showResult('create-result', result.message || 'Error al crear usuario', false);
+          }
+        } catch(error){
+          showResult('create-result', 'Error de conexión: ' + error.message, false);
+        }
+      }
+
+      async function logout(){
+        try {
+          const response = await fetch('/api/auth/logout', { method: 'POST' });
+          const data = await response.json();
+          if (response.ok) {
+            localStorage.removeItem('authToken');
+            window.location.href = '/login';
+          } else {
+            alert(data.message || 'Error al cerrar sesión');
+          }
+        } catch (e) {
+          alert('Error de conexión: ' + e.message);
+        }
+      }

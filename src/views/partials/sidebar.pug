@@ -1,0 +1,29 @@
+mixin sidebar(user)
+  .sidebar(class=(user && user.role === 'Administrativo') ? 'admin' : (user && user.role === 'Medico') ? 'medico' : (user && user.role === 'Paciente') ? 'paciente' : '')
+    .logo SI
+    nav
+      - var homeHref = '/'
+      if user && user.role === 'Medico'
+        - homeHref = '/dashboard/medico'
+      else if user && user.role === 'Paciente'
+        - homeHref = '/dashboard/paciente'
+      else
+        - homeHref = '/'
+      a(href=homeHref title='Inicio')
+        i.fas.fa-house
+      if !user || user.role === 'Administrativo'
+        a(href='/pacientes' title='Pacientes')
+          i.fas.fa-user-injured
+        a(href='/medicos' title='Médicos')
+          i.fas.fa-user-md
+        a(href='/turnos' title='Turnos')
+          i.fas.fa-calendar-check
+        if user && user.role === 'Administrativo'
+          a(href='/usuarios' title='Usuarios')
+            i.fas.fa-users-cog
+      else if user && user.role === 'Medico'
+        a(href='/pacientes' title='Pacientes')
+          i.fas.fa-user-injured
+      else if user && user.role === 'Paciente'
+        a(href='/turnos' title='Turnos')
+          i.fas.fa-calendar-check

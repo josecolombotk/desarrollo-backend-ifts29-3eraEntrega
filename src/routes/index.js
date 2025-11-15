@@ -9,12 +9,12 @@ import Paciente from '../models/Paciente.js';
 import Medico from '../models/Medico.js';
 import Turno from '../models/Turno.js';
 import DatabaseService from '../models/DatabaseService.js';
-import { requireAuthView } from '../middleware/index.js';
+import { requireAuthView, requireRole } from '../middleware/index.js';
 
 const router = express.Router();
 
 // 🟢 Dashboard principal con datos reales desde DatabaseService
-router.get('/', requireAuthView, async (req, res) => {
+router.get('/', requireAuthView,requireRole(['Administrativo']), async (req, res) => {
   try {
     const turnos = await Turno.getTurnosCompletos();
     const pacientes = await Paciente.getAll();
@@ -78,6 +78,59 @@ router.get('/turnos', requireAuthView, (req, res) => {
   res.render('turnos', { title: 'Gestión de Turnos', user: req.session?.user || null });
 });
 
+// Dashboards específicos por rol
+router.get('/dashboard/medico', requireAuthView, async (req, res) => {
+  const user = req.session?.user || null;
+  if (!user || user.role !== 'Medico' || !user.medicoId) {
+    return res.redirect('/login');
+  }
+  try {
+    const turnosCompletos = await Turno.getTurnosCompletos();
+    const misTurnos = turnosCompletos.filter(t => t.IdMedico && t.IdMedico.toString() === user.medicoId.toString());
+    res.render('dashboardMedico', {
+      title: 'Dashboard Médico',
+      user,
+      turnos: misTurnos,
+      metrics: { turnos: misTurnos.length }
+    });
+  } catch (error) {
+    console.error('Error cargando dashboard médico:', error);
+    res.render('dashboardMedico', {
+      title: 'Dashboard Médico',
+      user,
+      turnos: [],
+      metrics: { turnos: 0 },
+      error: 'Error al obtener datos'
+    });
+  }
+});
+
+router.get('/dashboard/paciente', requireAuthView, async (req, res) => {
+  const user = req.session?.user || null;
+  if (!user || user.role !== 'Paciente' || !user.pacienteId) {
+    return res.redirect('/');
+  }
+  try {
+    const turnosCompletos = await Turno.getTurnosCompletos();
+    const misTurnos = turnosCompletos.filter(t => t.IdPaciente && t.IdPaciente.toString() === user.pacienteId.toString());
+    res.render('dashboardPaciente', {
+      title: 'Mi Dashboard',
+      user,
+      turnos: misTurnos,
+      metrics: { turnos: misTurnos.length }
+    });
+  } catch (error) {
+    console.error('Error cargando dashboard paciente:', error);
+    res.render('dashboardPaciente', {
+      title: 'Mi Dashboard',
+      user,
+      turnos: [],
+      metrics: { turnos: 0 },
+      error: 'Error al obtener datos'
+    });
+  }
+});
+
 router.get('/usuarios', requireAuthView, (req, res) => {
   const user = req.session?.user || null;
   if (!user || user.role !== 'Administrativo') {
@@ -91,8 +144,8 @@ router.get('/login', (req, res) => {
   if (user) {
     // Redirección por rol si ya está autenticado
     if (user.role === 'Administrativo') return res.redirect('/');
-    if (user.role === 'Medico') return res.redirect('/pacientes');
-    if (user.role === 'Paciente') return res.redirect('/turnos');
+    if (user.role === 'Medico') return res.redirect('/dashboard/medico');
+    if (user.role === 'Paciente') return res.redirect('/dashboard/paciente');
   }
   res.render('login', { title: 'Iniciar Sesión', user: null });
 });

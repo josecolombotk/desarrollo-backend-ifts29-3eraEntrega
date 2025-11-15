@@ -54,7 +54,7 @@ router.get('/google/callback', passport.authenticate('google', { session: false,
   if (user.id) {
     // Usuario existente paciente: iniciar sesión
     req.session.user = user;
-    return res.redirect('/turnos');
+    return res.redirect('/dashboard/paciente');
   }
   // Usuario nuevo: completar registro de paciente
   const email = user.username;

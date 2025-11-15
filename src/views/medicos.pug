@@ -232,27 +232,8 @@ html(lang='es')
 
 
   body
-    .sidebar
-      .logo SI
-      nav
-        a(href='/' title='Inicio')
-          i.fas.fa-house
-        if !user || user.role === 'Administrativo'
-          a(href='/pacientes' title='Pacientes')
-            i.fas.fa-user-injured
-          a(href='/medicos' title='Médicos')
-            i.fas.fa-user-md
-          a(href='/turnos' title='Turnos')
-            i.fas.fa-calendar-check
-        if user && user.role === 'Administrativo'
-          a(href='/usuarios' title='Usuarios')
-            i.fas.fa-users-cog
-        else if user && user.role === 'Medico'
-          a(href='/pacientes' title='Pacientes')
-            i.fas.fa-user-injured
-        else if user && user.role === 'Paciente'
-          a(href='/turnos' title='Turnos')
-            i.fas.fa-calendar-check
+    include partials/sidebar.pug
+    +sidebar(user)
 
     .main
       .container
