@@ -540,6 +540,45 @@ html(lang='es')
             container.className = 'result success';
             container.style.display = 'block';
             const nombreCompleto = `${p.Nombre} ${p.Apellido}`;
+            // Obtener último turno del paciente
+            const idPaciente = p._id || p.IdPaciente;
+            let ultimoTurnoHtml = '<p><i class="fas fa-calendar-times"></i> No tiene turno registrado.</p>';
+            if (idPaciente) {
+              try {
+                const respTurnos = await fetch(`/api/turnos/paciente/${idPaciente}`);
+                const resultTurnos = await respTurnos.json();
+                if (respTurnos.ok && Array.isArray(resultTurnos.data) && resultTurnos.data.length > 0) {
+                  // Verificar que efectivamente correspondan al paciente
+                  const turnosDelPaciente = resultTurnos.data.filter(t => {
+                    const tId = (t.IdPaciente && (t.IdPaciente._id || t.IdPaciente)) || t.IdPaciente;
+                    return tId == idPaciente;
+                  });
+                  if (turnosDelPaciente.length > 0) {
+                    // Ordenar por fecha y hora de inicio y tomar el último
+                    turnosDelPaciente.sort((a, b) => {
+                      const ta = new Date(`${a.Fecha}T${a.HoraInicio || '00:00'}:00`).getTime();
+                      const tb = new Date(`${b.Fecha}T${b.HoraInicio || '00:00'}:00`).getTime();
+                      return ta - tb;
+                    });
+                    const ultimo = turnosDelPaciente[turnosDelPaciente.length - 1];
+                    const d = new Date(ultimo.Fecha);
+                    const dia = String(d.getUTCDate()).padStart(2, '0');
+                    const mes = String(d.getUTCMonth() + 1).padStart(2, '0');
+                    const anio = d.getUTCFullYear();
+                    const fechaStr = `${dia}/${mes}/${anio}`;
+                    const horaInicio = ultimo.HoraInicio || '';
+                    const horaFin = ultimo.HoraFin || '';
+                    ultimoTurnoHtml = `
+                      <p><i class=\"fas fa-calendar-check\"></i> Último turno: ${fechaStr}</p>
+                      <p><i class=\"fas fa-clock\"></i> Horario: ${horaInicio}${horaFin ? ' - ' + horaFin : ''}</p>
+                    `;
+                  }
+                }
+              } catch (e) {
+                console.error('Error al obtener último turno:', e);
+              }
+            }
+
             const html = `
               <h4><i class=\"fas fa-user\"></i> Paciente Encontrado:</h4>
               <div class=\"cards-grid\">
@@ -554,6 +593,7 @@ html(lang='es')
                     <p><i class=\"fas fa-calendar-alt\"></i> Edad: ${p.Edad || '-'} años</p>
                     <p><i class=\"fas fa-file-medical\"></i> Obra Social: ${p.ObraSocial || '-'}</p>
                     <p><i class=\"fas fa-id-card-clip\"></i> Nro. Afiliado: ${p.NroAfiliado || '-'}</p>
+                    ${ultimoTurnoHtml}
                   </div>
                 </div>
               </div>`;
