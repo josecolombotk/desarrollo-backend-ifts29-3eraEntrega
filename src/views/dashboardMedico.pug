@@ -84,17 +84,26 @@ html(lang='es')
       }
       .info-card h3 i { font-size: 1.2em; opacity: 0.8; }
 
-      /* --- Estilos de Lista (Basado en .card de Admin) --- */
+      /* --- Estilos de Lista (MODIFICADO PARA GRILLA) --- */
       .list-container {
         padding: 24px;
-        display: flex;
-        flex-direction: column;
-        gap: 16px; /* Espacio entre cada tarjeta de turno */
+        /* Se eliminó flex-direction y gap de aquí */
       }
-      ul { list-style: none; padding: 0; margin: 0; }
+      
+      ul { 
+        list-style: none; 
+        padding: 0; 
+        margin: 0;
+        
+        /* --- AÑADIDO PARA LA GRILLA DE 3 COLUMNAS --- */
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 3 columnas de igual tamaño */
+        gap: 16px; /* Espacio entre las tarjetas */
+      }
       
       /* Reutilizamos la clase .card del admin para las <li> */
-      .card {
+      /* El <li> ahora es un "grid item", por eso .card se aplica a <li> */
+      li.card {
         background: linear-gradient(135deg, #ffffff 0%, #fbfdff 100%);
         border-radius: 14px;
         padding: 18px;
@@ -156,6 +165,18 @@ html(lang='es')
         font-size: 1rem;
       }
 
+      /* --- AÑADIDO: Media Query para la Grilla de Turnos --- */
+      @media (max-width: 968px) {
+        .list-container ul {
+          grid-template-columns: repeat(2, 1fr); /* 2 columnas en tablet */
+        }
+      }
+      @media (max-width: 768px) {
+        .list-container ul {
+          grid-template-columns: 1fr; /* 1 columna en móvil */
+        }
+      }
+
   body
     include partials/sidebar.pug
     +sidebar(user, 'inicio') // Asegúrate de cambiar 'inicio' por la clave correcta si es otra
@@ -163,7 +184,7 @@ html(lang='es')
     .main
       .container
         //- Usamos el mismo mixin de header
-        +pageHeader(user, 'Dashboard Médico', 'Mis turnos programados')
+        +pageHeader(user, 'Dashboard', 'Clinica Salud Integral')
 
         //- Esta sección ahora usará los estilos del admin
         .top-grid
@@ -185,6 +206,7 @@ html(lang='es')
           
           if turnos && turnos.length
             //- Contenedor para la lista con padding
+            //- (LA ESTRUCTURA PUG NO CAMBIA)
             .list-container
               ul
                 each t in turnos
