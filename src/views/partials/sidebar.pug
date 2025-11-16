@@ -1,4 +1,4 @@
-mixin sidebar(user)
+mixin sidebar(user, activePage)
   .sidebar(class=(user && user.role === 'Administrativo') ? 'admin' : (user && user.role === 'Medico') ? 'medico' : (user && user.role === 'Paciente') ? 'paciente' : '')
     .logo SI
     nav
@@ -9,21 +9,21 @@ mixin sidebar(user)
         - homeHref = '/dashboard/paciente'
       else
         - homeHref = '/'
-      a(href=homeHref title='Inicio')
+      a(href=homeHref title='Inicio' class=(activePage === 'inicio' ? 'active' : ''))
         i.fas.fa-house
       if !user || user.role === 'Administrativo'
-        a(href='/pacientes' title='Pacientes')
+        a(href='/pacientes' title='Pacientes' class=(activePage === 'pacientes' ? 'active' : ''))
           i.fas.fa-user-injured
-        a(href='/medicos' title='Médicos')
+        a(href='/medicos' title='Médicos' class=(activePage === 'medicos' ? 'active' : ''))
           i.fas.fa-user-md
-        a(href='/turnos' title='Turnos')
+        a(href='/turnos' title='Turnos' class=(activePage === 'turnos' ? 'active' : ''))
           i.fas.fa-calendar-check
         if user && user.role === 'Administrativo'
-          a(href='/usuarios' title='Usuarios')
+          a(href='/usuarios' title='Usuarios' class=(activePage === 'usuarios' ? 'active' : ''))
             i.fas.fa-users-cog
       else if user && user.role === 'Medico'
-        a(href='/pacientes' title='Pacientes')
+        a(href='/pacientes' title='Pacientes' class=(activePage === 'pacientes' ? 'active' : ''))
           i.fas.fa-user-injured
       else if user && user.role === 'Paciente'
-        a(href='/turnos' title='Turnos')
+        a(href='/turnos' title='Turnos' class=(activePage === 'turnos' ? 'active' : ''))
           i.fas.fa-calendar-check

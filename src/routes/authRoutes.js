@@ -10,6 +10,9 @@ const router = express.Router();
 router.post('/register', requireAuth, requireRole(['Administrativo']), authController.register);
 router.post('/login', authController.login);
 router.post('/logout', requireAuth, authController.logout);
+router.get('/users', requireAuth, requireRole(['Administrativo']), authController.getAllUsers);
+router.delete('/users/:id', requireAuth, requireRole(['Administrativo']), authController.deleteUser);
+router.put('/users/:id', requireAuth, requireRole(['Administrativo']), authController.updateUser);
 
 // Configuración de Passport Google OAuth2
 passport.use(new GoogleStrategy({

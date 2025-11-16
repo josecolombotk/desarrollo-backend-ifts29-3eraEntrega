@@ -63,10 +63,10 @@ app.use(errorHandler);
     try {
         await connectDB();
         app.listen(PORT, () => {
-            console.log(`🚀 Servidor ejecutándose en http://localhost:${PORT}`);
-            console.log(`📁 Estructura MVC configurada correctamente`);
-            console.log(`🎨 Motor de vistas: Pug`);
-            console.log(`🌍 Entorno: ${process.env.NODE_ENV || 'development'}`);
+            console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
+            console.log(`Estructura MVC configurada correctamente`);
+            console.log(`Motor de vistas: Pug`);
+            console.log(`Entorno: ${process.env.NODE_ENV || 'development'}`);
         });
     } catch (error) {
         console.error('No se pudo iniciar el servidor debido a un error de conexión a la DB');

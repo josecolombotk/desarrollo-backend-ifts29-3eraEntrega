@@ -149,6 +149,67 @@ const authController = {
       }
       return res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
+  },
+
+  async updateUser(req, res) {
+    try {
+      const { id } = req.params;
+      const { username, password } = req.body;
+
+      if (!username && !password) {
+        return res.status(400).json({ success: false, message: 'Se requiere al menos un campo para actualizar (username o password)' });
+      }
+
+      const user = await Models['usuarios'].findById(id);
+      if (!user) {
+        return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
+      }
+
+      if (username) {
+        user.Username = username;
+      }
+
+      if (password) {
+        user.PasswordHash = await bcrypt.hash(password, 10);
+      }
+
+      await user.save();
+      return res.status(200).json({ success: true, message: 'Usuario actualizado correctamente' });
+    } catch (error) {
+      console.error('Error updating user:', error);
+      return res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    }
+  },
+
+  async deleteUser(req, res) {
+    try {
+      const { id } = req.params;
+      const user = await Models['usuarios'].findById(id);
+      if (!user) {
+        return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
+      }
+
+      await Models['usuarios'].findByIdAndDelete(id);
+      return res.status(200).json({ success: true, message: 'Usuario eliminado correctamente' });
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      return res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    }
+  },
+
+  async getAllUsers(req, res) {
+    try {
+      const users = await Models['usuarios'].find({}, 'id Username Role');
+      const formattedUsers = users.map(u => ({
+        id: u._id,
+        username: u.Username,
+        role: u.Role
+      }));
+      return res.status(200).json({ success: true, data: formattedUsers });
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      return res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    }
   }
 };
 

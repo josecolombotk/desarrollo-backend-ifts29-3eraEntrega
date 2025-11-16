@@ -6,6 +6,8 @@ html(lang='es')
     title= title
     link(rel='stylesheet', href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap')
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css')
+    include partials/layoutStyles.pug
+    include partials/headerModule.pug
     include partials/adminSidebarStyles.pug
     style.
       /* Extensiones propias de Usuarios (manteniendo plantilla admin) */
@@ -13,7 +15,7 @@ html(lang='es')
       .header-left i { color: #0f4c75; }
       .page-title { margin: 0; }
       .page-sub { color: #666; margin: 4px 0; }
-      .actions { display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; }
+      .actions { display: flex; gap: 10px; flex-wrap: wrap; }
       .action-button {
         display: inline-flex; align-items: center; gap: 8px;
         padding: 10px 12px; border-radius: 8px;
@@ -37,32 +39,38 @@ html(lang='es')
       .result { margin-top: 12px; padding: 10px; border-radius: 8px; border-left: 4px solid #999; background: #eef2f7; }
       .result.success { background: #c6f6d5; border-left-color: #48bb78; color: #22543d; }
       .result.error { background: #fed7d7; border-left-color: #f56565; color: #7b341e; }
+      .user-list { width: 100%; margin-top: 15px; }
+      .user-list th, .user-list td { text-align: left; padding: 15px 10px; border-bottom: 1px solid #d0d7e3; vertical-align: middle; }
+      .user-list th { background-color: #f0f4f8; }
+      .user-list .actions a { margin-right: 10px; color: #0f4c75; cursor: pointer; }
 
   body
     include partials/sidebar.pug
-    +sidebar(user)
+    +sidebar(user, 'usuarios')
 
     .main
       .container
-        .header-left
-          i.fas.fa-users-cog
-          h1.page-title Gestión de Usuarios
-          p.page-sub Desarrollo Backend - Grupo 4
-          if user
-            p.page-sub Bienvenido, #{user.username} · Rol: #{user.role}
-            a(href='#', onclick='logout()') Cerrar sesión
-          else
-            a(href='/login') Iniciar sesión
+        +pageHeader(user, 'Gestión de Usuarios')
 
         .actions
           if user && user.role === 'Administrativo'
             a.action-button.create(href='#' onclick='showCreate()')
               i.icon.fas.fa-user-plus
               | Crear Usuario
+            a.action-button.admin(href='#' onclick='showAdmin()')
+              i.icon.fas.fa-users-cog
+              | Administrar Usuarios
           else
             p.page-sub Solo personal administrativo puede gestionar usuarios.
 
         if user && user.role === 'Administrativo'
+          .form-section#admin-users-section(style='display:none')
+            h3
+              i.fas.fa-users-cog
+              | Administrar Usuarios
+            .result#admin-result(style='display:none')
+            .user-list#user-list-container
+              //- User list will be loaded here
           .form-section#create-user-form
             h3
               i.fas.fa-user-plus
@@ -109,6 +117,114 @@ html(lang='es')
 
       function showCreate(){
         document.getElementById('create-user-form').style.display = 'block';
+        document.getElementById('admin-users-section').style.display = 'none';
+      }
+
+      function showAdmin(){
+        document.getElementById('create-user-form').style.display = 'none';
+        document.getElementById('admin-users-section').style.display = 'block';
+        loadUsers();
+      }
+
+      async function loadUsers(){
+        try {
+          const res = await fetch('/api/auth/users');
+          const data = await res.json();
+          const container = document.getElementById('user-list-container');
+          if (res.ok && Array.isArray(data.data)){
+            let table = `<table class='user-list'>
+              <thead><tr><th>ID</th><th>Usuario</th><th>Rol</th><th>Acciones</th></tr></thead>
+              <tbody>`;
+            data.data.forEach(u => {
+              table += `<tr>
+                <td>${u.id}</td>
+                <td>${u.username}</td>
+                <td>${u.role}</td>
+                <td class='actions'>
+                  <a onclick='editUser(${JSON.stringify(u)})'><i class='fas fa-edit'></i></a>
+                  <a onclick="deleteUser('${u.id}')"><i class='fas fa-trash'></i></a>
+                </td>
+              </tr>`;
+            });
+            table += '</tbody></table>';
+            container.innerHTML = table;
+          } else {
+            container.innerHTML = '<p>No se pudieron cargar los usuarios.</p>';
+          }
+        } catch(err){
+          console.error(err);
+          document.getElementById('user-list-container').innerHTML = '<p>Error al cargar usuarios.</p>';
+        }
+      }
+
+      function editUser(user) {
+        const container = document.getElementById('user-list-container');
+        container.innerHTML = `
+          <div class="form-section">
+            <h3>Editando Usuario: ${user.username}</h3>
+            <form onsubmit="updateUser(event, '${user.id}')">
+              <div class="form-group">
+                <label for="edit-username">Nuevo Usuario</label>
+                <input type="text" id="edit-username" name="username" value="${user.username}" required>
+              </div>
+              <div class="form-group">
+                <label for="edit-password">Nueva Contraseña (dejar en blanco para no cambiar)</label>
+                <input type="password" id="edit-password" name="password">
+              </div>
+              <button class="submit-button" type="submit">Actualizar Usuario</button>
+              <button class="submit-button" type="button" onclick="loadUsers()">Cancelar</button>
+            </form>
+            <div class="result" id="edit-result" style="display:none"></div>
+          </div>
+        `;
+      }
+
+      async function updateUser(event, userId) {
+        event.preventDefault();
+        const username = document.getElementById('edit-username').value.trim();
+        const password = document.getElementById('edit-password').value;
+
+        const body = { username };
+        if (password) {
+          body.password = password;
+        }
+
+        try {
+          const response = await fetch(`/api/auth/users/${userId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+          });
+          const result = await response.json();
+          if (response.ok) {
+            showResult('admin-result', 'Usuario actualizado correctamente.', true);
+            loadUsers();
+          } else {
+            showResult('edit-result', result.message || 'Error al actualizar usuario', false);
+          }
+        } catch (error) {
+          showResult('edit-result', 'Error de conexión: ' + error.message, false);
+        }
+      }
+
+      async function deleteUser(userId) {
+        if (confirm(`¿Está seguro de que desea eliminar el usuario con ID ${userId}?`)) {
+          try {
+            const response = await fetch(`/api/auth/users/${userId}`, {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' }
+            });
+            const result = await response.json();
+            if (response.ok) {
+              showResult('admin-result', `Usuario ${userId} eliminado correctamente.`, true);
+              loadUsers(); // Recargar la lista de usuarios
+            } else {
+              showResult('admin-result', result.message || 'Error al eliminar usuario', false);
+            }
+          } catch (error) {
+            showResult('admin-result', 'Error de conexión: ' + error.message, false);
+          }
+        }
       }
 
       async function loadMedicos(){
@@ -205,20 +321,5 @@ html(lang='es')
           }
         } catch(error){
           showResult('create-result', 'Error de conexión: ' + error.message, false);
-        }
-      }
-
-      async function logout(){
-        try {
-          const response = await fetch('/api/auth/logout', { method: 'POST' });
-          const data = await response.json();
-          if (response.ok) {
-            localStorage.removeItem('authToken');
-            window.location.href = '/login';
-          } else {
-            alert(data.message || 'Error al cerrar sesión');
-          }
-        } catch (e) {
-          alert('Error de conexión: ' + e.message);
         }
       }
