@@ -10,120 +10,252 @@ html(lang='es')
     include partials/headerModule.pug
     style.
       .top-grid {
-        display:grid;
-        grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-        gap: 16px;
-        margin-top: 22px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        margin-top: 24px;
       }
 
       .metric-card {
-        background: linear-gradient(135deg, rgba(239,250,255,0.9), rgba(221,238,255,0.9));
-        padding: 18px;
-        border-radius: 12px;
-        display:flex;
-        align-items:center;
+        background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+        padding: 24px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
         justify-content: space-between;
-        border: 1px solid rgba(12,50,80,0.04);
+        border: 1px solid rgba(12,50,80,0.08);
+        box-shadow: 0 4px 16px rgba(12,50,80,0.06);
+        transition: all 0.3s ease;
+      }
+
+      .metric-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(12,50,80,0.12);
       }
 
       .metric-left {
-        display:flex;
-        gap:12px;
-        align-items:center;
+        display: flex;
+        gap: 16px;
+        align-items: center;
       }
+
       .metric-icon {
-        width:48px;
-        height:48px;
-        border-radius:10px;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        background: rgba(11,117,182,0.1);
+        width: 56px;
+        height: 56px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, rgba(11,117,182,0.12), rgba(15,76,129,0.08));
         color: #0f4c81;
-        font-size:1.3em;
+        font-size: 1.5em;
       }
-      .metric-title { font-size:0.85em; color: #5b7f98; margin:0; }
-      .metric-number { font-size:1.6rem; font-weight:700; color: #0f4c81; margin:0; }
+
+      .metric-title { 
+        font-size: 0.88em; 
+        color: #6b8ca3; 
+        margin: 0 0 6px 0;
+        font-weight: 500;
+      }
+
+      .metric-number { 
+        font-size: 2rem; 
+        font-weight: 700; 
+        color: #0f4c81; 
+        margin: 0;
+        line-height: 1;
+      }
 
       .info-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 16px;
-        margin-top: 28px;
+        gap: 24px;
+        margin-top: 32px;
       }
 
       .info-card {
         background: white;
-        padding: 14px;
-        border-radius: 12px;
-        box-shadow: 0 8px 22px rgba(12,50,80,0.04);
+        padding: 0;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(12,50,80,0.06);
+        overflow: hidden;
+        display: flex;           
+        flex-direction: column;  
+      }
+
+      .info-card-header {
+        padding: 20px 24px;
+        background: linear-gradient(135deg, #f8fbff 0%, #ffffff 100%);
+        border-bottom: 1px solid rgba(12,50,80,0.06);
       }
 
       .info-card h3 {
-        margin: 0 0 10px 0;
-        font-size: 1rem;
-        color: #0f4c81;
-        display:flex;
-        align-items:center;
-        gap:10px;
-      }
-
-      ul {
-        list-style: none;
-        padding: 0;
         margin: 0;
-      }
-
-      li {
-        background: linear-gradient(180deg, #ffffff, #fbfdff);
-        border-radius: 10px;
-        margin-bottom: 10px;
-        padding: 10px 12px;
-        border: 1px solid rgba(10,60,100,0.03);
-      }
-
-      /* Cards grid para turnos y pacientes */
-      .cards-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        font-size: 1.1rem;
+        color: #0f4c81;
+        display: flex;
+        align-items: center;
         gap: 12px;
-        margin-top: 8px;
+        font-weight: 600;
+      }
+
+      .info-card h3 i {
+        font-size: 1.2em;
+        opacity: 0.8;
+      }
+
+      /* Slider Container */
+      .slider-container {
+        position: relative;
+        padding: 24px;
+        flex-grow: 1;  /* <--- AÑADE ESTO */
+      }
+
+      .slider-wrapper {
+        overflow: hidden;
+        /* margin: 0 50px; */  /* <--- ELIMINA O COMENTA ESTA LÍNEA */
+        margin: 0;          /* <--- AÑADE ESTA LÍNEA */
+        position: relative;
+      }
+
+      .cards-slider {
+        display: flex;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .slider-page {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        min-width: 100%;
+        width: 100%;
+        flex-shrink: 0;
+        /* padding: 0 20px; */  /* <--- ELIMINA O COMENTA ESTA LÍNEA */
+        padding: 0;           /* <--- AÑADE ESTA LÍNEA */
+        box-sizing: border-box;
       }
 
       .card {
-        background: linear-gradient(180deg, #ffffff, #fbfdff);
-        border-radius: 12px;
-        padding: 12px;
-        border: 1px solid rgba(10,60,100,0.06);
-        box-shadow: 0 8px 20px rgba(12,50,80,0.04);
+        background: linear-gradient(135deg, #ffffff 0%, #fbfdff 100%);
+        border-radius: 14px;
+        padding: 18px;
+        border: 1px solid rgba(10,60,100,0.08);
+        box-shadow: 0 2px 12px rgba(12,50,80,0.04);
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 12px;
+        /* max-width y margin auto eliminados */
+        transition: all 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(12,50,80,0.1);
       }
 
       .card-header {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
         color: #0f4c81;
         font-weight: 600;
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(12,50,80,0.06);
+      }
+
+      .card-header i {
+        font-size: 1.1em;
       }
 
       .card-title {
-        font-size: 0.95rem;
+        font-size: 0.98rem;
         margin: 0;
       }
 
-      .card-body p {
-        margin: 4px 0;
-        color: #5b7f98;
+      .card-body {
         display: flex;
-        align-items: center;
+        flex-direction: column;
         gap: 8px;
       }
 
-      .card i {
+      .card-body p {
+        margin: 0;
+        color: #5b7f98;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.92rem;
+      }
+
+      .card-body i {
         color: #0f4c81;
+        opacity: 0.7;
+        width: 16px;
+      }
+
+      /* Botones del slider */
+      .slider-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: white;
+        border: 1px solid rgba(12,50,80,0.15);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 12px rgba(12,50,80,0.1);
+      }
+
+      .slider-btn:hover {
+        background: #0f4c81;
+        color: white;
+        border-color: #0f4c81;
+        box-shadow: 0 4px 16px rgba(12,50,80,0.2);
+      }
+
+      .slider-btn.disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      .slider-btn-prev {
+        /* left: 0; */     /* <--- ELIMINA O COMENTA ESTA LÍNEA */
+        left: 10px;     /* <--- AÑADE ESTA LÍNEA (mueve el botón 10px del borde) */
+      }
+
+      .slider-btn-next {
+        /* right: 0; */    /* <--- ELIMINA O COMENTA ESTA LÍNEA */
+        right: 10px;    /* <--- AÑADE ESTA LÍNEA (mueve el botón 10px del borde) */
+      }
+
+      .empty-state {
+        padding: 40px 24px;
+        text-align: center;
+        color: #6b8ca3;
+      }
+
+      .empty-state i {
+        font-size: 3em;
+        opacity: 0.3;
+        margin-bottom: 16px;
+      }
+
+      .empty-state p {
+        margin: 0;
+        font-size: 1rem;
+      }
+
+      @media (max-width: 968px) {
+        .info-grid {
+          grid-template-columns: 1fr;
+        }
       }
 
   body
@@ -159,43 +291,141 @@ html(lang='es')
 
         .info-grid
           .info-card
-            h3
-              i.fas.fa-list-ul
-              | Turnos agendados recientemente
+            .info-card-header
+              h3
+                i.fas.fa-calendar-alt
+                | Turnos agendados recientemente
             if turnos.length
-              .cards-grid
-                each t in turnos
-                  .card
-                    .card-header
-                      i.fas.fa-calendar-check
-                      .card-title= `${t.fechaFormateada} ${t.HoraInicio || ''} - ${t.HoraFin || ''}`
-                    .card-body
-                      p
-                        i.fas.fa-user
-                        | Paciente: #{t.Paciente}
-                      p
-                        i.fas.fa-user-md
-                        | Médico: #{t.Medico}
-            if !turnos.length
-              p No hay turnos recientes
+              .slider-container
+                button.slider-btn.slider-btn-prev(onclick="slideCards('turnos', -1)")
+                  i.fas.fa-chevron-left
+                .slider-wrapper
+                  .cards-slider#turnos-slider
+                button.slider-btn.slider-btn-next(onclick="slideCards('turnos', 1)")
+                  i.fas.fa-chevron-right
+              script.
+                (function() {
+                  const turnos = !{JSON.stringify(turnos)};
+                  const slider = document.getElementById('turnos-slider');
+                  const cardsPerPage = 4;
+                  
+                  for (let i = 0; i < turnos.length; i += cardsPerPage) {
+                    const page = document.createElement('div');
+                    page.className = 'slider-page';
+                    
+                    for (let j = i; j < i + cardsPerPage && j < turnos.length; j++) {
+                      const t = turnos[j];
+                      page.innerHTML += `
+                        <div class="card">
+                          <div class="card-header">
+                            <i class="fas fa-calendar-check"></i>
+                            <div class="card-title">${t.fechaFormateada} ${t.HoraInicio || ''}</div>
+                          </div>
+                          <div class="card-body">
+                            <p><i class="fas fa-clock"></i> ${t.HoraInicio || ''} - ${t.HoraFin || ''}</p>
+                            <p><i class="fas fa-user"></i> ${t.Paciente}</p>
+                            <p><i class="fas fa-user-md"></i> ${t.Medico}</p>
+                          </div>
+                        </div>
+                      `;
+                    }
+                    slider.appendChild(page);
+                  }
+                })();
+            else
+              .empty-state
+                i.fas.fa-calendar-times
+                p No hay turnos recientes
 
           .info-card
-            h3
-              i.fas.fa-users
-              | Pacientes registrados recientemente
+            .info-card-header
+              h3
+                i.fas.fa-users
+                | Pacientes registrados recientemente
             if pacientes.length
-              .cards-grid
-                each p in pacientes
-                  .card
-                    .card-header
-                      i.fas.fa-id-card
-                      .card-title= `${p.Nombre || p.nombre} ${p.Apellido || p.apellido}`
-                    .card-body
-                      p
-                        i.fas.fa-id-badge
-                        | DNI: #{p.DNI || p.dni || '-'}
-                      p
-                        i.fas.fa-file-medical
-                        | Obra Social: #{p.ObraSocial || p.obraSocial || '-'}
-            if !pacientes.length
-              p No hay pacientes registrados
+              .slider-container
+                button.slider-btn.slider-btn-prev(onclick="slideCards('pacientes', -1)")
+                  i.fas.fa-chevron-left
+                .slider-wrapper
+                  .cards-slider#pacientes-slider
+                button.slider-btn.slider-btn-next(onclick="slideCards('pacientes', 1)")
+                  i.fas.fa-chevron-right
+              script.
+                (function() {
+                  const pacientes = !{JSON.stringify(pacientes)};
+                  const slider = document.getElementById('pacientes-slider');
+                  const cardsPerPage = 4;
+                  
+                  for (let i = 0; i < pacientes.length; i += cardsPerPage) {
+                    const page = document.createElement('div');
+                    page.className = 'slider-page';
+                    
+                    for (let j = i; j < i + cardsPerPage && j < pacientes.length; j++) {
+                      const p = pacientes[j];
+                      page.innerHTML += `
+                        <div class="card">
+                          <div class="card-header">
+                            <i class="fas fa-user-circle"></i>
+                            <div class="card-title">${(p.Nombre || p.nombre)} ${(p.Apellido || p.apellido)}</div>
+                          </div>
+                          <div class="card-body">
+                            <p><i class="fas fa-id-badge"></i> DNI: ${p.DNI || p.dni || '-'}</p>
+                            <p><i class="fas fa-file-medical"></i> ${p.ObraSocial || p.obraSocial || '-'}</p>
+                          </div>
+                        </div>
+                      `;
+                    }
+                    slider.appendChild(page);
+                  }
+                })();
+            else
+              .empty-state
+                i.fas.fa-user-slash
+                p No hay pacientes registrados
+
+    script.
+      const sliders = {
+        turnos: { currentIndex: 0, totalPages: 0 },
+        pacientes: { currentIndex: 0, totalPages: 0 }
+      };
+
+      function updateSliderButtons(type) {
+        const slider = document.getElementById(`${type}-slider`);
+        if (!slider) return;
+        
+        const pages = slider.querySelectorAll('.slider-page');
+        sliders[type].totalPages = pages.length;
+        
+        const { currentIndex, totalPages } = sliders[type];
+        
+        const prevBtn = slider.closest('.slider-container').querySelector('.slider-btn-prev');
+        const nextBtn = slider.closest('.slider-container').querySelector('.slider-btn-next');
+        
+        prevBtn.classList.toggle('disabled', currentIndex === 0);
+        nextBtn.classList.toggle('disabled', currentIndex >= totalPages - 1);
+      }
+
+      function slideCards(type, direction) {
+        const slider = document.getElementById(`${type}-slider`);
+        if (!slider) return;
+        
+        const { totalPages } = sliders[type];
+        
+        sliders[type].currentIndex += direction;
+        sliders[type].currentIndex = Math.max(0, Math.min(sliders[type].currentIndex, totalPages - 1));
+        
+        const wrapper = slider.parentElement;
+        const sliderWidth = wrapper.offsetWidth;
+        const offset = -(sliders[type].currentIndex * sliderWidth);
+        
+        slider.style.transform = `translateX(${offset}px)`;
+        updateSliderButtons(type);
+      }
+
+      // Inicializar estado de botones
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          updateSliderButtons('turnos');
+          updateSliderButtons('pacientes');
+        }, 100);
+      });

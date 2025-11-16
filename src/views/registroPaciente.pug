@@ -6,83 +6,295 @@ html(lang='es')
     title= title
     link(rel='stylesheet', href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap')
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css')
+    
+    //- --- ESTILOS UNIFICADOS (MODIFICADOS) ---
     style.
-      body { font-family:'Inter',sans-serif; margin:0; padding:24px; background:linear-gradient(135deg,#f6fbff,#e9f6ff); color:#0f4c81; display:flex; min-height:100vh; align-items:center; justify-content:center; }
-      .card { width:100%; max-width:720px; background:rgba(255,255,255,0.88); padding:24px; border-radius:16px; box-shadow:0 14px 40px rgba(2,6,23,0.12); }
-      .header { display:flex; align-items:center; gap:12px; margin-bottom:18px; }
-      .logo { width:44px; height:44px; border-radius:10px; background:linear-gradient(135deg,#0b74b6,#0b4fa0); display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; }
-      .page-sub { margin:0; color:#5b7f98; }
-      .grid { display:grid; grid-template-columns:1fr 1fr; column-gap:28px; row-gap:16px; }
-      .form-group { margin-bottom:14px; min-width:0; }
-      .form-group label { display:block; margin-bottom:8px; font-weight:600; }
-      .form-group input, .form-group select { width:100%; padding:10px; border:1px solid #cbd5e0; border-radius:8px; font-size:16px; box-sizing:border-box; }
-      .form-group input:focus, .form-group select:focus { outline:none; border-color:#0b74b6; box-shadow:0 0 0 2px rgba(11,116,182,0.12); }
-      .submit-button { width:100%; background:#0b74b6; color:#fff; padding:12px; border:none; border-radius:8px; font-size:16px; cursor:pointer; margin-top:10px; }
-      .submit-button:hover { background:#0b4fa0; }
-      .result { margin-top:12px; display:none; padding:12px; border-radius:8px; }
-      .result.success { background:#f0fff4; border-left:4px solid #48bb78; color:#2f855a; display:block; }
-      .result.error { background:#fed7d7; border-left:4px solid #f56565; color:#c53030; display:block; }
-      .actions { display:flex; gap:12px; margin-top:12px; }
-      .google { background:#fff; color:#0f4c81; border:1px solid #cbd5e0; }
-      .google i { color:#db4437; }
-      .login-link { text-align:center; margin-top:10px; }
-      @media (max-width: 768px) {
-        .grid { grid-template-columns: 1fr; gap:16px; }
+      * { box-sizing: border-box; }
+      body {
+        font-family: 'Inter', sans-serif;
+        margin: 0;
+        padding: 24px;
+        background: linear-gradient(135deg, #f6fbff, #e9f6ff);
+        color: #0f4c81;
+        display: flex;
+        min-height: 100vh;
+        align-items: center;
+        justify-content: center;
       }
+      
+      .info-card {
+        width: 100%;
+        max-width: 900px;
+        background: white;
+        padding: 0;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(12,50,80,0.06);
+        overflow: hidden;
+      }
+      
+      /* --- (MODIFICADO) Cabecera ahora usa space-between --- */
+      .info-card-header {
+        padding: 20px 24px;
+        background: linear-gradient(135deg, #f8fbff 0%, #ffffff 100%);
+        border-bottom: 1px solid rgba(12,50,80,0.06);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        justify-content: space-between; /* <--- MODIFICADO */
+      }
+      
+      /* --- (NUEVO) Agrupador de logo y título --- */
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #0b74b6, #0b4fa0);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 1.8em;
+        flex-shrink: 0;
+      }
+      
+      .info-card-header h1 {
+        margin: 0;
+        font-size: 1.2rem;
+        color: #0f4c81;
+      }
+      .page-sub { margin:0; color:#5b7f98; font-size: 0.9rem; }
+
+      /* --- (NUEVO) Botón de Volver --- */
+      .back-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        text-decoration: none;
+        color: #5b7f98;
+        background: transparent;
+        border: 1px solid rgba(12,50,80,0.1);
+        transition: all 0.2s ease;
+        font-size: 1rem;
+        flex-shrink: 0;
+      }
+      
+      .back-button:hover {
+        background: rgba(12,50,80,0.05);
+        color: #0f4c81;
+        border-color: rgba(12,50,80,0.2);
+      }
+      /* --- (FIN NUEVO) --- */
+
+      .form-content {
+        padding: 24px;
+      }
+      
+      .form-grid-2col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 28px;
+        row-gap: 16px;
+      }
+
+      hr.form-divider {
+        border: none;
+        border-top: 1px solid #e2e8f0;
+        margin: 24px 0;
+      }
+
+      .form-content h4 {
+        margin-top: 0;
+        margin-bottom: 16px;
+        color: #5b7f98;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .form-group { margin-bottom:14px; min-width:0; }
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: #2d3748;
+        font-size: 0.9rem;
+      }
+      .form-group input, .form-group select {
+        width:100%;
+        padding: 10px 12px;
+        border:1px solid #cbd5e0;
+        border-radius: 8px;
+        font-size: 1rem;
+        box-sizing:border-box;
+      }
+      .form-group input:focus, .form-group select:focus {
+        outline:none;
+        border-color: #0b74b6;
+        box-shadow: 0 0 0 3px rgba(11, 116, 182, 0.1);
+      }
+      
+      .submit-button {
+        width:100%;
+        background: #0b74b6;
+        color:#fff;
+        padding: 12px 24px;
+        border:none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor:pointer;
+        margin-top:10px;
+        transition: all 0.2s ease;
+      }
+      .submit-button:hover {
+        background: #0b4fa0;
+        box-shadow: 0 4px 12px rgba(11, 116, 182, 0.2);
+      }
+      
+      .result {
+        margin-top:12px;
+        display:none;
+        padding: 15px 24px;
+        border-radius: 8px;
+        font-weight: 500;
+      }
+      .result i { margin-right: 8px; }
+      .result.success {
+        background: #f0fff4;
+        border: 1px solid rgba(72, 187, 120, 0.2);
+        color: #2f855a;
+        display:block;
+      }
+      .result.error {
+        background: #fff5f5;
+        border: 1px solid rgba(229, 62, 62, 0.2);
+        color: #c53030;
+        display:block;
+      }
+      
+      .actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(12,50,80,0.08);
+      }
+      .alt-button {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px;
+        border: 1px solid rgba(12,50,80,0.12);
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.18s ease;
+        background: white;
+        color: #0f4c81;
+      }
+      .alt-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 22px rgba(12,50,80,0.12);
+      }
+      .alt-button.google i { color:#db4437; }
+      
+      @media (max-width: 768px) {
+        body { padding: 0; }
+        .info-card { border-radius: 0; min-height: 100vh; }
+        .form-grid-2col { grid-template-columns: 1fr; gap:16px; }
+      }
+      
   body
-    .card
-      .header
-        .logo SI
-        .title
-          h1 Registro de Paciente
-          p.page-sub Completa tus datos para crear tu cuenta de paciente
-      if googleEmail
-        .result.success
-          i.fas.fa-info-circle
-          | Hemos recibido tu correo de Google: #{googleEmail}. #{googleFirstName || googleLastName ? `También obtuvimos tu nombre: ${googleFirstName} ${googleLastName}.` : ''} Completa tus datos para finalizar el registro.
-      form#registro-form
-        .grid
+    .info-card
+      //- --- (MODIFICADO) Se reestructura el header ---
+      .info-card-header
+        .header-left
+          .logo
+            i.fas.fa-star-of-life
+          .title
+            h1 Registro de Paciente
+            p.page-sub Completa tus datos para crear tu cuenta
+        a.back-button(href='/login' title='Volver a Login')
+          i.fas.fa-arrow-left
+      //- --- (FIN MODIFICADO) ---
+      
+      .form-content
+        if googleEmail
+          .result.success
+            i.fas.fa-info-circle
+            | Email de Google: #{googleEmail}. #{googleFirstName || googleLastName ? `Nombre: ${googleFirstName} ${googleLastName}.` : ''} Completa tus datos para finalizar.
+        
+        form#registro-form
+          
+          h4 Datos de Cuenta
           .form-group
             label(for='username') Email (usuario)
             input(type='email', id='username', name='username', required, value=googleEmail)
           .form-group
             label(for='password') Contraseña
             input(type='password', id='password', name='password', placeholder='(Opcional si registras con Google)')
-          .form-group
-            label(for='DNI') DNI
-            input(type='text', id='DNI', name='DNI', required)
-          .form-group
-            label(for='Nombre') Nombre
-            input(type='text', id='Nombre', name='Nombre', required, value=googleFirstName)
-          .form-group
-            label(for='Apellido') Apellido
-            input(type='text', id='Apellido', name='Apellido', required, value=googleLastName)
-          .form-group
-            label(for='Edad') Edad
-            input(type='number', id='Edad', name='Edad', min='0', required)
-          .form-group
-            label(for='Sexo') Sexo
-            select(id='Sexo', name='Sexo', required)
-              option(value='') Selecciona...
-              option(value='F') Femenino
-              option(value='M') Masculino
-          .form-group
-            label(for='ObraSocial') Obra Social
-            input(type='text', id='ObraSocial', name='ObraSocial', required)
-          .form-group
-            label(for='NroAfiliado') Nro. Afiliado
-            input(type='text', id='NroAfiliado', name='NroAfiliado', required)
-        button.submit-button(type='submit')
-          i.fas.fa-user-plus
-          | Crear cuenta de paciente
-      .result#registro-result
-      .actions
-        a.google.button(href='/api/auth/google')
-          i.fab.fa-google
-          | Continuar con Google
-        a.button(href='/login')
-          i.fas.fa-sign-in-alt
-          | Ir a Iniciar Sesión
+          
+          hr.form-divider
+
+          h4 Datos Personales
+          .form-grid-2col
+            .form-group
+              label(for='Nombre') Nombre
+              input(type='text', id='Nombre', name='Nombre', required, value=googleFirstName)
+            .form-group
+              label(for='Apellido') Apellido
+              input(type='text', id='Apellido', name='Apellido', required, value=googleLastName)
+            .form-group
+              label(for='DNI') DNI
+              input(type='text', id='DNI', name='DNI', required)
+            .form-group
+              label(for='Edad') Edad
+              input(type='number', id='Edad', name='Edad', min='0', required)
+            .form-group
+              label(for='Sexo') Sexo
+              select(id='Sexo', name='Sexo', required)
+                option(value='') Selecciona...
+                option(value='F') Femenino
+                option(value='M') Masculino
+          
+          hr.form-divider
+
+          h4 Datos de Cobertura
+          .form-grid-2col
+            .form-group
+              label(for='ObraSocial') Obra Social
+              input(type='text', id='ObraSocial', name='ObraSocial', required)
+            .form-group
+              label(for='NroAfiliado') Nro. Afiliado
+              input(type='text', id='NroAfiliado', name='NroAfiliado', required)
+
+          button.submit-button(type='submit' style='margin-top: 20px;')
+            i.fas.fa-user-plus
+            | Crear cuenta de paciente
+        
+        .result#registro-result
+        
+        .actions
+          a.alt-button.google(href='/api/auth/google')
+            i.fab.fa-google
+            | Continuar con Google
+          a.alt-button(href='/login')
+            i.fas.fa-sign-in-alt
+            | Ir a Iniciar Sesión
+            
     script.
       const form = document.getElementById('registro-form');
       const result = document.getElementById('registro-result');
@@ -111,14 +323,14 @@ html(lang='es')
           const data = await resp.json();
           if (resp.ok && data.success) {
             result.classList.add('success');
-            result.textContent = 'Registro exitoso. Ahora puedes iniciar sesión como Paciente.';
+            result.innerHTML = '<i class="fas fa-check-circle"></i> Registro exitoso. Ahora puedes iniciar sesión como Paciente.';
             setTimeout(() => { window.location.href = '/login'; }, 1500);
           } else {
             result.classList.add('error');
-            result.textContent = data.message || 'Error en el registro';
+            result.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${data.message || 'Error en el registro'}`;
           }
         } catch (err) {
           result.classList.add('error');
-          result.textContent = 'Error de conexión: ' + err.message;
+          result.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Error de conexión: ${err.message}`;
         }
       });

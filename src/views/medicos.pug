@@ -4,83 +4,101 @@ html(lang='es')
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     title= title
-    link(rel='stylesheet', href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap')
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display:swap')
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css')
     include partials/layoutStyles.pug
     include partials/headerModule.pug
+
+    //- --- ESTILOS UNIFICADOS (Basados en el Dashboard) ---
     style.
-      /* --- Estilos Específicos de Médicos (Fusionados) --- */
+      /* --- Estilos de Acciones (Re-diseñados como Tarjetas Métricas) --- */
       .actions {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         gap: 20px;
         margin: 30px 0;
       }
       .action-button {
-        display: block;
-        padding: 20px;
-        text-decoration: none;
-        border-radius: 10px;
-        text-align: center;
-        font-weight: bold;
-        font-size: 1.1em;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        color: white;
-      }
-      .action-button:hover {
-        transform: translateY(-2px);
-        color: white;
-        text-decoration: none;
-      }
-      .action-button .icon { /* Estilo para el ícono dentro del botón */
-        font-size: 2em;
-        display: block;
-        margin-bottom: 10px;
-      }
-      .create {
-        background: linear-gradient(135deg, #48bb78, #38a169);
-        box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
-      }
-      .create:hover {
-        box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
-      }
-      .read {
-        background: linear-gradient(135deg, #4299e1, #3182ce);
-        box-shadow: 0 4px 15px rgba(66, 153, 225, 0.3);
-      }
-      .read:hover {
-        box-shadow: 0 6px 20px rgba(66, 153, 225, 0.4);
-      }
-      .update {
-        background: linear-gradient(135deg, #ed8936, #dd6b20);
-        box-shadow: 0 4px 15px rgba(237, 137, 54, 0.3);
-      }
-      .update:hover {
-        box-shadow: 0 6px 20px rgba(237, 137, 54, 0.4);
-      }
-      .delete {
-        background: linear-gradient(135deg, #f56565, #e53e3e);
-        box-shadow: 0 4px 15px rgba(245, 101, 101, 0.3);
-      }
-      .delete:hover {
-        box-shadow: 0 6px 20px rgba(245, 101, 101, 0.4);
-      }
-      .form-section {
-        background: #f7fafc;
-        padding: 20px;
-        border-radius: 10px;
-        margin: 20px 0;
-        display: none;
-        border: 1px solid rgba(12,50,80,0.04);
-      }
-      .form-section h3 {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+        padding: 24px;
+        border-radius: 16px;
         display: flex;
         align-items: center;
-        gap: 10px;
-        color: #2d3748;
+        gap: 16px;
+        border: 1px solid rgba(12,50,80,0.08);
+        box-shadow: 0 4px 16px rgba(12,50,80,0.06);
+        transition: all 0.3s ease;
+        text-decoration: none;
+      }
+      .action-button:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(12,50,80,0.12);
+        color: #0f4c81;
+      }
+      .action-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5em;
+        flex-shrink: 0;
+      }
+      .action-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #0f4c81;
+        margin: 0;
+      }
+      /* Colores de íconos de acción */
+      .action-button.create .action-icon {
+        background: linear-gradient(135deg, rgba(72,187,120,0.15), rgba(56,161,105,0.1));
+        color: #38a169;
+      }
+      .action-button.read .action-icon {
+        background: linear-gradient(135deg, rgba(66,153,225,0.15), rgba(49,130,206,0.1));
+        color: #3182ce;
+      }
+      .action-button.update .action-icon {
+        background: linear-gradient(135deg, rgba(237,137,54,0.15), rgba(221,107,32,0.1));
+        color: #dd6b20;
+      }
+      .action-button.delete .action-icon {
+        background: linear-gradient(135deg, rgba(245,101,101,0.15), rgba(229,62,62,0.1));
+        color: #e53e3e;
+      }
+
+      /* --- Estilos de Formularios (Re-diseñados como Info-Card) --- */
+      .form-section {
+        background: white;
+        padding: 0;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(12,50,80,0.06);
+        overflow: hidden;
+        margin: 20px 0;
+        display: none; /* Oculto por defecto */
       }
       .form-section.active {
-        display: block;
+        display: block; /* Visible con clase 'active' */
+      }
+      .form-section .info-card-header { /* Reutilizamos el estilo del dashboard */
+        padding: 20px 24px;
+        background: linear-gradient(135deg, #f8fbff 0%, #ffffff 100%);
+        border-bottom: 1px solid rgba(12,50,80,0.06);
+      }
+      .form-section h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        color: #0f4c81;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 600;
+      }
+      .form-section h3 i { font-size: 1.2em; opacity: 0.8; }
+      .form-content {
+        padding: 24px;
       }
       .form-group {
         margin-bottom: 15px;
@@ -88,112 +106,140 @@ html(lang='es')
       .form-group label {
         display: block;
         margin-bottom: 5px;
-        font-weight: bold;
+        font-weight: 600;
         color: #2d3748;
+        font-size: 0.9rem;
       }
       .form-group input, .form-group select {
         width: 100%;
-        padding: 10px;
+        padding: 10px 12px;
         border: 1px solid #cbd5e0;
-        border-radius: 5px;
-        font-size: 16px;
-        box-sizing: border-box; /* Añadido para consistencia de tamaño */
+        border-radius: 8px;
+        font-size: 1rem;
+        box-sizing: border-box;
       }
       .form-group input:focus, .form-group select:focus {
         outline: none;
         border-color: #0b74b6;
         box-shadow: 0 0 0 3px rgba(11, 116, 182, 0.1);
       }
-      .submit-button {
+      .submit-button { /* Botón unificado */
         background: #0b74b6;
         color: white;
         padding: 12px 24px;
         border: none;
-        border-radius: 5px;
-        font-size: 16px;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
         cursor: pointer;
-        transition: background 0.3s ease;
+        transition: all 0.2s ease;
         margin-top: 10px;
         margin-bottom: 10px;
       }
       .submit-button:hover {
         background: #0b4fa0;
+        box-shadow: 0 4px 12px rgba(11, 116, 182, 0.2);
       }
-      .result {
-        background: #edf2f7;
-        padding: 15px;
-        border-radius: 5px;
-        margin-top: 15px;
-        display: none;
+      .form-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: flex-end;
       }
-      .result i { /* Estilo para íconos en resultados */
-        margin-right: 8px;
-      }
-      .result.success {
-        background: #f0fff4;
-        border-left: 4px solid #48bb78;
-        color: #2f855a;
-      }
-      .result.success i {
-        color: #48bb78;
-      }
-      .result.error {
-        background: #fed7d7;
-        border-left: 4px solid #f56565;
-        color: #c53030;
-      }
-      .result.error i {
-        color: #f56565;
+      hr.form-divider {
+        border: none;
+        border-top: 1px solid #e2e8f0;
+        margin: 24px 0;
       }
 
-      /* --- Estilos de tarjetas reutilizables --- */
+      /* --- Estilos de Resultados (Unificados) --- */
+      .result {
+        padding: 15px 24px;
+        border-radius: 0;
+        margin: 0; /* Se mostrará pegado al formulario */
+        display: none;
+        font-weight: 500;
+      }
+      .result i { margin-right: 8px; }
+      .result.success {
+        background: #f0fff4;
+        border-top: 1px solid rgba(72, 187, 120, 0.2);
+        color: #2f855a;
+      }
+      .result.success i { color: #48bb78; }
+      .result.error {
+        background: #fff5f5;
+        border-top: 1px solid rgba(229, 62, 62, 0.2);
+        color: #c53030;
+      }
+      .result.error i { color: #f56565; }
+      
+      /* Contenedor para la grilla de tarjetas de resultado */
+      .result-grid-container {
+        padding: 24px;
+        background: #f8fbff;
+      }
+      .result-grid-container h4 {
+        margin: 0 0 16px 0;
+        color: #0f4c81;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      /* --- Estilos de Tarjetas (Unificados con Dashboard) --- */
       .cards-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 16px;
-        margin-top: 12px;
+        gap: 20px;
       }
       .card {
-        background: #fff;
-        border-radius: 12px;
-        border: 1px solid rgba(12,50,80,0.06);
-        box-shadow: 0 10px 24px rgba(2,6,23,0.06);
+        background: linear-gradient(135deg, #ffffff 0%, #fbfdff 100%);
+        border-radius: 14px;
+        border: 1px solid rgba(10,60,100,0.08);
+        box-shadow: 0 2px 12px rgba(12,50,80,0.04);
         overflow: hidden;
-        transition: transform .18s ease, box-shadow .18s ease;
+        transition: all 0.3s ease;
       }
       .card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 14px 32px rgba(2,6,23,0.10);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(12,50,80,0.1);
       }
       .card-header {
         display: flex;
         align-items: center;
         gap: 10px;
-        padding: 14px 16px;
+        color: #0f4c81;
+        font-weight: 600;
+        padding: 14px 18px;
         border-bottom: 1px solid rgba(12,50,80,0.06);
       }
-      .card-header i {
-        color: #0f4c81;
-        font-size: 1.2rem;
-      }
-      .card-title {
-        font-weight: 600;
-        color: #0f4c81;
-      }
+      .card-header i { font-size: 1.1em; }
+      .card-title { font-size: 0.98rem; margin: 0; }
       .card-body {
-        padding: 12px 16px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 18px;
       }
       .card-body p {
-        margin: 8px 0;
+        margin: 0;
+        color: #5b7f98;
         display: flex;
         align-items: center;
-        gap: 8px;
-        color: #2d3748;
+        gap: 10px;
+        font-size: 0.92rem;
       }
       .card-body p i {
-        color: #5b7f98;
+        color: #0f4c81;
+        opacity: 0.7;
+        width: 16px;
       }
-
+      .card.medico-card:hover {
+        cursor: pointer;
+        border-color: #0b74b6;
+      }
 
   body
     include partials/sidebar.pug
@@ -203,135 +249,155 @@ html(lang='es')
       .container
         +pageHeader(user, 'Gestión de Médicos')
         
-        // --- Contenido de la página de Médicos con íconos ---
+        //- --- Botones de Acción (Re-diseñados) ---
         .actions
           if !user || user.role === 'Administrativo'
             a.action-button.create(href='#' onclick='showForm("create")')
-              i.icon.fas.fa-plus-circle
-              | Crear Médico
+              .action-icon
+                i.fas.fa-plus-circle
+              .action-title Crear Médico
             a.action-button.read(href='#' onclick='showForm("read")')
-              i.icon.fas.fa-search
-              | Consultar Médicos
+              .action-icon
+                i.fas.fa-search
+              .action-title Consultar
             a.action-button.update(href='#' onclick='showForm("update")')
-              i.icon.fas.fa-edit
-              | Modificar Médico
+              .action-icon
+                i.fas.fa-edit
+              .action-title Modificar
             a.action-button.delete(href='#' onclick='showForm("delete")')
-              i.icon.fas.fa-trash-alt
-              | Eliminar Médico
+              .action-icon
+                i.fas.fa-trash-alt
+              .action-title Eliminar
           else if user && user.role === 'Medico'
             a.action-button.read(href='#' onclick='showForm("read")')
-              i.icon.fas.fa-search
-              | Consultar Médicos
+              .action-icon
+                i.fas.fa-search
+              .action-title Consultar Médicos
           else if user && user.role === 'Paciente'
             p.page-sub Solo personal administrativo puede gestionar médicos.
           
-
+        //- --- Formularios (Re-diseñados como .info-card) ---
         
         // Formulario Crear Médico
         .form-section#create-form
-          h3
-            i.fas.fa-plus-circle
-            | Crear Nuevo Médico
-          form(onsubmit='createMedico(event)')
-            .form-group
-              label(for='nombre') Nombre:
-              input(type='text' id='nombre' name='Nombre' required)
-            .form-group
-              label(for='apellido') Apellido:
-              input(type='text' id='apellido' name='Apellido' required)
-            .form-group
-              label(for='dni') DNI:
-              input(type='text' id='dni' name='DNI' required)
-            .form-group
-              label(for='especialidad') Especialidad:
-              select(id='especialidad' name='Especialidad' required)
-                option(value='') Seleccionar...
-                option(value='Cardiología') Cardiología
-                option(value='Dermatología') Dermatología
-                option(value='Traumatología') Traumatología
-                option(value='Ginecología') Ginecología
-                option(value='Pediatría') Pediatría
-                option(value='Neurología') Neurología
-                option(value='Oftalmología') Oftalmología
-                option(value='Psiquiatría') Psiquiatría
-                option(value='Medicina General') Medicina General
-            button.submit-button(type='submit') Crear Médico
+          .info-card-header
+            h3
+              i.fas.fa-plus-circle
+              | Crear Nuevo Médico
+          .form-content
+            form(onsubmit='createMedico(event)')
+              .form-group
+                label(for='nombre') Nombre:
+                input(type='text' id='nombre' name='Nombre' required)
+              .form-group
+                label(for='apellido') Apellido:
+                input(type='text' id='apellido' name='Apellido' required)
+              .form-group
+                label(for='dni') DNI:
+                input(type='text' id='dni' name='DNI' required)
+              .form-group
+                label(for='especialidad') Especialidad:
+                select(id='especialidad' name='Especialidad' required)
+                  option(value='') Seleccionar...
+                  option(value='Cardiología') Cardiología
+                  option(value='Dermatología') Dermatología
+                  option(value='Traumatología') Traumatología
+                  option(value='Ginecología') Ginecología
+                  option(value='Pediatría') Pediatría
+                  option(value='Neurología') Neurología
+                  option(value='Oftalmología') Oftalmología
+                  option(value='Psiquiatría') Psiquiatría
+                  option(value='Medicina General') Medicina General
+              button.submit-button(type='submit') Crear Médico
           .result#create-result
         
         // Formulario Consultar Médicos
         .form-section#read-form
-          h3
-            i.fas.fa-search
-            | Consultar Médicos
-          button.submit-button(onclick='getAllMedicos()') Ver Todos los Médicos
-          .form-group(style='margin-top: 20px;')
-            label(for='searchDni') Buscar por DNI:
-            input(type='text' id='searchDni' name='searchDni' placeholder='Ingrese DNI')
-            button.submit-button(onclick='getMedicoByDni()') Buscar
-          .form-group(style='margin-top: 20px;')
-            label(for='searchEspecialidad') Buscar por Especialidad:
-            select(id='searchEspecialidad' name='searchEspecialidad')
-              option(value='') Seleccionar...
-              option(value='Cardiología') Cardiología
-              option(value='Dermatología') Dermatología
-              option(value='Traumatología') Traumatología
-              option(value='Ginecología') Ginecología
-              option(value='Pediatría') Pediatría
-              option(value='Neurología') Neurología
-              option(value='Oftalmología') Oftalmología
-              option(value='Psiquiatría') Psiquiatría
-              option(value='Medicina General') Medicina General
-            button.submit-button(onclick='getMedicosByEspecialidad()') Buscar
+          .info-card-header
+            h3
+              i.fas.fa-search
+              | Consultar Médicos
+          .form-content
+            .form-actions
+              button.submit-button(onclick='getAllMedicos()') Ver Todos
+            hr.form-divider
+            .form-actions
+              .form-group(style='margin-bottom:0; flex-grow:1;')
+                label(for='searchDni') Buscar por DNI:
+                input(type='text' id='searchDni' name='searchDni' placeholder='Ingrese DNI')
+              button.submit-button(onclick='getMedicoByDni()') Buscar
+            hr.form-divider
+            .form-actions
+              .form-group(style='margin-bottom:0; flex-grow:1;')
+                label(for='searchEspecialidad') Buscar por Especialidad:
+                select(id='searchEspecialidad' name='searchEspecialidad')
+                  option(value='') Seleccionar...
+                  option(value='Cardiología') Cardiología
+                  option(value='Dermatología') Dermatología
+                  option(value='Traumatología') Traumatología
+                  option(value='Ginecología') Ginecología
+                  option(value='Pediatría') Pediatría
+                  option(value='Neurología') Neurología
+                  option(value='Oftalmología') Oftalmología
+                  option(value='Psiquiatría') Psiquiatría
+                  option(value='Medicina General') Medicina General
+              button.submit-button(onclick='getMedicosByEspecialidad()') Buscar
           .result#read-result
         
         // Formulario Modificar Médico
         .form-section#update-form
-          h3
-            i.fas.fa-edit
-            | Modificar Médico
-          .form-group
-            label(for='updateMedicoSelect') Seleccionar Médico:
-            select(id='updateMedicoSelect' name='updateMedicoSelect' required)
-              option(value='') Seleccionar médico...
+          .info-card-header
+            h3
+              i.fas.fa-edit
+              | Modificar Médico
+          .form-content
+            .form-group
+              label(for='updateMedicoSelect') Seleccionar Médico:
+              select(id='updateMedicoSelect' name='updateMedicoSelect' required)
+                option(value='') Seleccionar médico...
             button.submit-button(onclick='loadMedicoData()') Cargar Datos
-          form(onsubmit='updateMedico(event)' style='display:none' id='update-data-form')
-            .form-group
-              label(for='updateNombre') Nombre:
-              input(type='text' id='updateNombre' name='Nombre' required)
-            .form-group
-              label(for='updateApellido') Apellido:
-              input(type='text' id='updateApellido' name='Apellido' required)
-            .form-group
-              label(for='updateDni') DNI:
-              input(type='text' id='updateDni' name='DNI' required)
-            .form-group
-              label(for='updateEspecialidad') Especialidad:
-              select(id='updateEspecialidad' name='Especialidad' required)
-                option(value='Cardiología') Cardiología
-                option(value='Dermatología') Dermatología
-                option(value='Traumatología') Traumatología
-                option(value='Ginecología') Ginecología
-                option(value='Pediatría') Pediatría
-                option(value='Neurología') Neurología
-                option(value='Oftalmología') Oftalmología
-                option(value='Psiquiatría') Psiquiatría
-                option(value='Medicina General') Medicina General
-            button.submit-button(type='submit') Actualizar Médico
+            
+            form(onsubmit='updateMedico(event)' style='display:none' id='update-data-form')
+              hr.form-divider
+              .form-group
+                label(for='updateNombre') Nombre:
+                input(type='text' id='updateNombre' name='Nombre' required)
+              .form-group
+                label(for='updateApellido') Apellido:
+                input(type='text' id='updateApellido' name='Apellido' required)
+              .form-group
+                label(for='updateDni') DNI:
+                input(type='text' id='updateDni' name='DNI' required)
+              .form-group
+                label(for='updateEspecialidad') Especialidad:
+                select(id='updateEspecialidad' name='Especialidad' required)
+                  option(value='Cardiología') Cardiología
+                  option(value='Dermatología') Dermatología
+                  option(value='Traumatología') Traumatología
+                  option(value='Ginecología') Ginecología
+                  option(value='Pediatría') Pediatría
+                  option(value='Neurología') Neurología
+                  option(value='Oftalmología') Oftalmología
+                  option(value='Psiquiatría') Psiquiatría
+                  option(value='Medicina General') Medicina General
+              button.submit-button(type='submit') Actualizar Médico
           .result#update-result
         
         // Formulario Eliminar Médico
         .form-section#delete-form
-          h3
-            i.fas.fa-trash-alt
-            | Eliminar Médico
-          .form-group
-            label(for='deleteId') Seleccionar Médico:
-            select(id='deleteId' name='deleteId' required)
-              option(value='') Seleccionar médico...
-            button.submit-button(onclick='deleteMedico()') Eliminar Médico
+          .info-card-header
+            h3
+              i.fas.fa-trash-alt
+              | Eliminar Médico
+          .form-content
+            .form-group
+              label(for='deleteId') Seleccionar Médico:
+              select(id='deleteId' name='deleteId' required)
+                option(value='') Seleccionar médico...
+            button.submit-button(onclick='deleteMedico()' style='background:#e53e3e;') Eliminar Médico
           .result#delete-result
 
-    // --- Script modificado para usar íconos ---
+    //- --- SCRIPT REFACTORIZADO ---
     script.
       function showForm(formType) {
         // Ocultar todos los formularios
@@ -339,13 +405,15 @@ html(lang='es')
         forms.forEach(form => form.classList.remove('active'));
         
         // Mostrar el formulario seleccionado
-        document.getElementById(formType + '-form').classList.add('active');
+        const activeForm = document.getElementById(formType + '-form');
+        if (activeForm) {
+          activeForm.classList.add('active');
+        }
         
         // Cargar médicos en el desplegable si es el formulario de modificar
         if (formType === 'update') {
           loadMedicosDropdown('updateMedicoSelect');
         }
-
         if (formType === 'delete') {
           loadMedicosDropdown('deleteId');
         }
@@ -355,12 +423,12 @@ html(lang='es')
         results.forEach(result => {
           result.style.display = 'none';
           result.innerHTML = '';
+          result.className = 'result'; // Resetea clases
         });
       }
 
       function showResult(elementId, message, isSuccess = true) {
         const result = document.getElementById(elementId);
-        // Genera el ícono correspondiente en HTML
         const iconHtml = isSuccess ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-times-circle"></i>';
         result.innerHTML = `${iconHtml} ${message}`;
         result.className = 'result ' + (isSuccess ? 'success' : 'error');
@@ -370,8 +438,6 @@ html(lang='es')
       async function createMedico(event) {
         event.preventDefault();
         const formData = new FormData(event.target);
-        
-        // Construir el objeto con los nombres de parámetros correctos
         const data = {
           Nombre: formData.get('Nombre'),
           Apellido: formData.get('Apellido'),
@@ -399,15 +465,20 @@ html(lang='es')
         }
       }
 
+      // --- Modificado para renderizar las tarjetas unificadas ---
       async function getAllMedicos() {
         try {
           const response = await fetch('/api/medicos');
           const result = await response.json();
+          const container = document.getElementById('read-result');
+
           if (response.ok) {
             const medicos = Array.isArray(result.data) ? result.data : [];
-            const limited = medicos.slice(0, 10);
-            let html = '<div class="cards-grid">';
-            limited.forEach(medico => {
+            container.className = 'result result-grid-container success'; // Contenedor especial
+            container.style.display = 'block';
+            let html = `<h4><i class="fas fa-clipboard-list"></i> Mostrando ${medicos.length} Médicos:</h4>`;
+            html += '<div class="cards-grid">';
+            medicos.forEach(medico => {
               const nombreCompleto = `${medico.Nombre} ${medico.Apellido}`;
               html += `
                 <div class="card medico-card" onclick="selectMedicoDni('${medico.DNI || ''}')">
@@ -422,10 +493,7 @@ html(lang='es')
                 </div>`;
             });
             html += '</div>';
-            const container = document.getElementById('read-result');
-            container.className = 'result success';
-            container.style.display = 'block';
-            container.innerHTML = `<h4><i class="fas fa-clipboard-list"></i> Lista de Médicos:</h4>${html}`;
+            container.innerHTML = html;
           } else {
             showResult('read-result', `Error: ${result.message}`, false);
           }
@@ -434,6 +502,7 @@ html(lang='es')
         }
       }
 
+      // --- Modificado para renderizar las tarjetas unificadas ---
       async function getMedicoByDni() {
         const dni = document.getElementById('searchDni').value;
         if (!dni) {
@@ -444,16 +513,16 @@ html(lang='es')
         try {
           const response = await fetch(`/api/medicos/dni/${dni}`);
           const result = await response.json();
-          
+          const container = document.getElementById('read-result');
+
           if (response.ok) {
             const m = result.data;
             const nombreCompleto = `${m.Nombre} ${m.Apellido}`;
-            const container = document.getElementById('read-result');
-            container.className = 'result success';
+            container.className = 'result result-grid-container success';
             container.style.display = 'block';
             const html = `
               <h4><i class="fas fa-user-md"></i> Médico Encontrado:</h4>
-              <div class="cards-grid">
+              <div class="cards-grid" style="grid-template-columns: 1fr;">
                 <div class="card medico-card" onclick="selectMedicoDni('${m.DNI || ''}')">
                   <div class="card-header">
                     <i class="fas fa-user-md"></i>
@@ -474,6 +543,7 @@ html(lang='es')
         }
       }
 
+      // --- Modificado para renderizar las tarjetas unificadas ---
       async function getMedicosByEspecialidad() {
         const especialidad = document.getElementById('searchEspecialidad').value;
         if (!especialidad) {
@@ -484,14 +554,30 @@ html(lang='es')
         try {
           const response = await fetch(`/api/medicos/especialidad/${especialidad}`);
           const result = await response.json();
-          
+          const container = document.getElementById('read-result');
+
           if (response.ok) {
-            let html = `<h4><i class="fas fa-briefcase-medical"></i> Médicos de ${especialidad}:</h4>`;
-            result.data.forEach(medico => {
-              const id = medico._id || medico.IdMedico;
-              html += `<p><strong>ID:</strong> ${id} | <strong>Nombre:</strong> ${medico.Nombre} ${medico.Apellido} | <strong>DNI:</strong> ${medico.DNI}</p>`;
+            const medicos = Array.isArray(result.data) ? result.data : [];
+            container.className = 'result result-grid-container success';
+            container.style.display = 'block';
+            let html = `<h4><i class="fas fa-briefcase-medical"></i> ${medicos.length} Médicos de ${especialidad}:</h4>`;
+            html += '<div class="cards-grid">';
+            medicos.forEach(medico => {
+              const nombreCompleto = `${medico.Nombre} ${medico.Apellido}`;
+              html += `
+                <div class="card medico-card" onclick="selectMedicoDni('${medico.DNI || ''}')">
+                  <div class="card-header">
+                    <i class="fas fa-user-md"></i>
+                    <div class="card-title">${nombreCompleto}</div>
+                  </div>
+                  <div class="card-body">
+                    <p><i class="fas fa-id-badge"></i> DNI: ${medico.DNI || '-'}</p>
+                    <p><i class="fas fa-briefcase-medical"></i> Especialidad: ${medico.Especialidad || '-'}</p>
+                  </div>
+                </div>`;
             });
-            showResult('read-result', html, true);
+            html += '</div>';
+            container.innerHTML = html;
           } else {
             showResult('read-result', `Error: ${result.message}`, false);
           }
@@ -500,15 +586,14 @@ html(lang='es')
         }
       }
 
+      // --- Lógica de Carga y Actualización (sin cambios) ---
       async function loadMedicosDropdown(idSelect) {
         try {
           const response = await fetch('/api/medicos');
           const result = await response.json();
-          
           if (response.ok) {
             const select = document.getElementById(idSelect);
             select.innerHTML = '<option value="">Seleccionar médico...</option>';
-            
             result.data.forEach(medico => {
               const id = medico._id || medico.IdMedico;
               const option = document.createElement('option');
@@ -517,9 +602,7 @@ html(lang='es')
               select.appendChild(option);
             });
           }
-        } catch (error) {
-          console.error('Error cargando médicos:', error);
-        }
+        } catch (error) { console.error('Error cargando médicos:', error); }
       }
 
       async function loadMedicoData() {
@@ -528,18 +611,15 @@ html(lang='es')
           showResult('update-result', 'Por favor seleccione un médico', false);
           return;
         }
-        
         try {
           const response = await fetch(`/api/medicos/${id}`);
           const result = await response.json();
-          
           if (response.ok) {
             const m = result.data;
             document.getElementById('updateNombre').value = m.Nombre;
             document.getElementById('updateApellido').value = m.Apellido;
             document.getElementById('updateDni').value = m.DNI;
             document.getElementById('updateEspecialidad').value = m.Especialidad;
-            
             document.getElementById('update-data-form').style.display = 'block';
             showResult('update-result', 'Datos cargados correctamente', true);
           } else {
@@ -554,22 +634,18 @@ html(lang='es')
         event.preventDefault();
         const id = document.getElementById('updateMedicoSelect').value;
         const formData = new FormData(event.target);
-        
-        // Construir el objeto con los nombres de parámetros correctos
         const data = {
           Nombre: formData.get('Nombre'),
           Apellido: formData.get('Apellido'),
           DNI: formData.get('DNI'),
           Especialidad: formData.get('Especialidad')
         };
-        
         try {
           const response = await fetch(`/api/medicos/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
           });
-          
           const result = await response.json();
           if (response.ok) {
             showResult('update-result', 'Médico actualizado exitosamente', true);
@@ -587,21 +663,15 @@ html(lang='es')
           showResult('delete-result', 'Por favor seleccione un médico', false);
           return;
         }
-        
         if (!confirm('¿Está seguro de que desea eliminar este médico?')) {
           return;
         }
-        
         try {
-          const response = await fetch(`/api/medicos/${id}`, {
-            method: 'DELETE'
-          });
-          
+          const response = await fetch(`/api/medicos/${id}`, { method: 'DELETE' });
           const result = await response.json();
           if (response.ok) {
             showResult('delete-result', 'Médico eliminado exitosamente', true);
             document.getElementById('deleteId').value = '';
-            // Recargar la lista de médicos en los dropdowns
             loadMedicosDropdown('updateMedicoSelect');
             loadMedicosDropdown('deleteId');
           } else {
@@ -612,20 +682,22 @@ html(lang='es')
         }
       }
 
-    script.
       function selectMedicoDni(dni) {
-      try {
-        const input = document.getElementById('searchDni');
-        if (input) {
-          input.value = dni || '';
-          if (typeof getMedicoByDni === 'function') {
-            getMedicoByDni();
-          } else {
-            const form = input.closest('form');
-            if (form) form.dispatchEvent(new Event('submit', { bubbles: true }));
+        try {
+          showForm('read'); // Asegura que el formulario de lectura esté visible
+          const input = document.getElementById('searchDni');
+          if (input) {
+            input.value = dni || '';
+            if (typeof getMedicoByDni === 'function') {
+              getMedicoByDni();
+            }
           }
+        } catch (e) {
+          console.error('Error al seleccionar DNI del médico:', e);
         }
-      } catch (e) {
-        console.error('Error al seleccionar DNI del médico:', e);
       }
-      }
+
+      // --- Inicializar sin mostrar formularios ---
+      document.addEventListener('DOMContentLoaded', () => {
+        // No muestra ningún formulario por defecto
+      });

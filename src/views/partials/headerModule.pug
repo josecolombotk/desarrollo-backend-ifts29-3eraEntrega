@@ -1,49 +1,102 @@
-//- Estilos para el header y la sección de usuario
+//- --- INICIO DEL CÓDIGO ÚNICO (CSS + PUG + JS) ---
+
+//- --- 1. ESTILOS CSS (SIN CAMBIOS) ---
 style.
-  .page-header {
+  /* --- Variables de Color (Paleta Profesional) --- */
+  :root {
+    --color-primary: #006ab1;     /* Azul clínico principal */
+    --color-primary-light: #e6f0f7;
+    --color-text-dark: #1a2b48;   /* Azul-gris oscuro para texto */
+    --color-text-light: #6b7f99; /* Gris para subtítulos */
+    --color-bg-page: #f7f9fc;    /* Fondo de página (asumido) */
+    --color-bg-header: #ffffff;  /* Fondo blanco para el header */
+    --color-border: #eef2f6;     /* Borde sutil */
+    --color-danger: #dc2626;     /* Rojo para logout/alertas */
+    --shadow-sm: 0 4px 12px rgba(26, 43, 72, 0.06);
+    --shadow-md: 0 6px 20px rgba(26, 43, 72, 0.1);
+  }
+
+  /* --- Contenedor Principal --- */
+  .header-container {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
+    padding: 20px 24px;
+    background: var(--color-bg-header);
+    border-bottom: 1px solid var(--color-border);
     margin-bottom: 28px;
   }
 
-  .header-left h1 {
-    font-size: 2.5rem;
-    margin: 4px 0;
-  }
-
-  .header-left .clinic-name {
-    font-size: 1rem;
-    color: #5b7f98;
-    margin: 0 0 4px 0;
-  }
-
-  .header-left .page-sub {
-    font-size: 1rem;
-    color: #5b7f98;
-    margin: 4px 0;
-  }
-
-  .user-section {
+  /* --- Lado Izquierdo: Títulos --- */
+  .header-primary {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    align-items: flex-end;
+    gap: 4px;
   }
 
-  .user-info {
+  .page-title {
+    font-size: 2.1rem; /* Título grande */
+    margin: 0;
+    color: var(--color-text-dark);
+    font-weight: 700;
+  }
+
+  /* --- Link de Home (Reemplaza Breadcrumbs) --- */
+  .clinic-home-link {
+    display: inline-flex; /* Ajusta al contenido */
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    color: var(--color-primary); /* Azul principal */
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .clinic-home-link:hover {
+    color: var(--color-text-dark); /* Oscurece al pasar el mouse */
+  }
+  .clinic-home-link i {
+    font-size: 0.9rem; /* Tamaño del nuevo ícono */
+  }
+
+
+  /* --- Lado Derecho: Acciones y Usuario --- */
+  .header-secondary {
+    display: flex;
+    align-items: center;
+  }
+
+  /* --- Menú de Usuario --- */
+  .user-menu-container {
+    position: relative;
+  }
+  
+  .user-menu-trigger {
     display: flex;
     align-items: center;
     gap: 12px;
-    background: white;
-    padding: 10px 16px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(12,50,80,0.06);
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 10px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  .user-menu-trigger:hover {
+    background: var(--color-bg-page);
+  }
+  .user-menu-trigger .chevron-icon {
+    font-size: 0.75rem;
+    color: var(--color-text-light);
+    transition: transform 0.2s ease;
+  }
+  .user-menu-container.open .chevron-icon {
+    transform: rotate(180deg);
   }
 
   .user-avatar {
-    width: 44px;
-    height: 44px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     background: linear-gradient(135deg, #0b74b6, #0b4fa0);
     display: flex;
@@ -51,129 +104,209 @@ style.
     justify-content: center;
     color: white;
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 1rem;
     flex-shrink: 0;
   }
 
   .user-details {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
   }
-
   .user-name {
     font-weight: 600;
-    color: #0f4c81;
+    color: var(--color-text-dark);
     font-size: 0.95rem;
     margin: 0;
   }
-
   .user-role {
-    font-size: 0.8rem;
-    color: #5b7f98;
-    margin: 2px 0 0 0;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    margin: 0;
   }
 
+  /* --- Badges de Rol (Estilo "Pill") --- */
   .role-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
     padding: 2px 8px;
-    border-radius: 6px;
-    font-size: 0.75rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
     font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
-
-  .role-badge.admin {
-    background: linear-gradient(135deg, rgba(239,68,68,0.1), rgba(220,38,38,0.1));
-    color: #991b1b;
+  .role-badge.administrativo {
+    background: #fee2e2;
+    color: #b91c1c;
   }
-
   .role-badge.medico {
-    background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(5,150,105,0.1));
+    background: #d1fae5;
     color: #065f46;
   }
-
   .role-badge.paciente {
-    background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(37,99,235,0.1));
+    background: #dbeafe;
     color: #1e3a8a;
   }
 
-  .logout-btn {
-    background: linear-gradient(135deg, #ef4444, #dc2626);
-    color: white;
-    border: none;
-    padding: 10px 20px;
+  /* --- El Dropdown (SIMPLIFICADO) --- */
+  .user-menu-dropdown {
+    display: none; /* Oculto por defecto */
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: var(--color-bg-header);
     border-radius: 10px;
-    font-size: 0.9rem;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-md);
+    width: 240px; /* Ancho ajustado */
+    padding: 0; 
+    z-index: 100;
+    overflow: hidden; 
+  }
+  .user-menu-dropdown.open {
+    display: block;
+  }
+  
+  /* --- Cabecera del Dropdown (con Bienvenida) --- */
+  .dropdown-header {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .dropdown-user-name {
+    margin: 0 0 4px 0;
+    font-size: 0.95rem;
     font-weight: 600;
-    cursor: pointer;
+    color: var(--color-text-dark);
+  }
+  .dropdown-user-role {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+  }
+
+  /* Contenido del Dropdown (solo el botón) */
+  .dropdown-content {
+    padding: 8px; /* Espacio alrededor del botón */
+  }
+
+  /* Botón de Logout */
+  .dropdown-logout {
     display: flex;
     align-items: center;
-    gap: 8px;
-    transition: all 0.18s ease;
-    box-shadow: 0 4px 12px rgba(239,68,68,0.2);
+    gap: 12px;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    color: var(--color-danger) !important; /* Rojo */
+    text-decoration: none;
+    border-radius: 6px;
+    width: 100%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    text-align: left;
+  }
+  .dropdown-logout i {
+    width: 16px;
+    color: var(--color-danger) !important;
+  }
+  .dropdown-logout:hover {
+    background: #fee2e2 !important; /* Fondo rojo claro */
   }
 
-  .logout-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(239,68,68,0.3);
-  }
-
-  .logout-btn:active {
-    transform: translateY(0);
-  }
-
+  /* --- Media Query (Ajustada) --- */
   @media (max-width: 968px) {
-    .page-header {
+    .header-container {
       flex-direction: column;
       align-items: flex-start;
       gap: 16px;
     }
-
-    .user-section {
+    .header-secondary {
       width: 100%;
-      justify-content: space-between;
+      display: flex;
+      justify-content: flex-end; /* Alinea el menú de usuario a la derecha */
+    }
+    .page-title {
+      font-size: 1.8rem; /* Ajuste para móvil */
     }
   }
 
-//- Mixin para el header
-mixin pageHeader(user, pageTitle, clinicName = 'Clínica Salud Integral', pageSub = 'Desarrollo Backend - Grupo 4')
-  .page-header
-    .header-left
-      p.clinic-name= clinicName
-      h1.page-title= pageTitle
-      p.page-sub= pageSub
+
+//- --- 2. MIXIN PUG (ESTRUCTURA CORREGIDA) ---
+//- Nota: Este mixin asume que tienes Font Awesome (para los íconos)
+mixin pageHeader(user, pageTitle, clinicName = 'Clínica Salud Integral')
+
+  //- Contenedor principal del header
+  .header-container
     
-    if user
-      .user-section
-        .user-info
+    //- Lado izquierdo: Título y Link a Home
+    .header-primary
+      h1.page-title= pageTitle
+      
+      //- --- ¡CAMBIO AQUÍ! ---
+      //- Lógica para definir el link de "Home" según el rol
+      - let homeLink = '/' // Link por defecto (para Admin, etc.)
+      case user.role
+        when 'Medico'
+          - homeLink = '/dashboard/medico'
+        when 'Paciente'
+          - homeLink = '/dashboard/paciente'
+      
+      //- El link ahora usa la variable 'homeLink'
+      a.clinic-home-link(href=homeLink)
+        i.fas.fa-clinic-medical
+        span= clinicName
+        
+    //- Lado derecho: Solo Menú de Usuario
+    .header-secondary
+      
+      //- Menú de Usuario (Componente con Dropdown)
+      .user-menu-container
+        
+        //- El botón que abre el menú
+        button.user-menu-trigger(onclick='toggleUserMenu()')
           .user-avatar= user.username.charAt(0).toUpperCase()
           .user-details
-            p.user-name Bienvenido, #{user.username}
+            p.user-name= user.username
             p.user-role
-              if user.role === 'Administrativo'
-                span.role-badge.admin
-                  i.fas.fa-user-shield
-                  | Administrativo
-              else if user.role === 'Medico'
-                span.role-badge.medico
-                  i.fas.fa-user-md
-                  | Médico
-              else if user.role === 'Paciente'
-                span.role-badge.paciente
-                  i.fas.fa-user
-                  | Paciente
-        button.logout-btn(onclick='logout()')
-          i.fas.fa-sign-out-alt
-          | Cerrar Sesión
-    else
-      a(href='/login' style='padding: 10px 20px; background: linear-gradient(135deg, #0b74b6, #0b4fa0); color: white; text-decoration: none; border-radius: 10px; font-weight: 600;') Iniciar sesión
+              span.role-badge(class=user.role.toLowerCase())= user.role
+          i.fas.fa-chevron-down.chevron-icon
+          
+        //- El Dropdown (SIMPLIFICADO)
+        #userDropdown.user-menu-dropdown
+          //- Cabecera de bienvenida
+          .dropdown-header
+            p.dropdown-user-name= 'Bienvenido, ' + user.username
+            p.dropdown-user-role= 'Rol: ' + user.role
+          
+          //- Contenido con el botón
+          .dropdown-content
+            button.dropdown-logout(onclick='logout()')
+              i.fas.fa-sign-out-alt
+              | Cerrar Sesión
 
-//- Script para el logout
+
+//- --- 3. SCRIPTS (SIN CAMBIOS) ---
 script.
+  // Función para mostrar/ocultar el dropdown
+  function toggleUserMenu() {
+    const dropdown = document.getElementById('userDropdown');
+    const container = dropdown.closest('.user-menu-container');
+    dropdown.classList.toggle('open');
+    container.classList.toggle('open');
+  }
+
+  // Cierra el menú si se hace clic fuera de él (Mejora de UX)
+  window.onclick = function(event) {
+    if (!event.target.closest('.user-menu-container')) {
+      const dropdowns = document.getElementsByClassName('user-menu-dropdown');
+      for (let i = 0; i < dropdowns.length; i++) {
+        const openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('open')) {
+          openDropdown.classList.remove('open');
+          openDropdown.closest('.user-menu-container').classList.remove('open');
+        }
+      }
+    }
+  }
+
+  // Tu función de logout (sin cambios)
   async function logout(){
     try {
       const response = await fetch('/api/auth/logout', { method: 'POST' });
@@ -188,3 +321,5 @@ script.
       alert('Error de conexión: ' + e.message);
     }
   }
+
+//- --- FIN DEL CÓDIGO ÚNICO ---

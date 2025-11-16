@@ -9,40 +9,256 @@ html(lang='es')
     include partials/layoutStyles.pug
     include partials/headerModule.pug
     include partials/adminSidebarStyles.pug
+
+    //- --- ESTILOS UNIFICADOS (Basados en el Dashboard) ---
     style.
-      /* Extensiones propias de Usuarios (manteniendo plantilla admin) */
-      .main { padding: 20px; }
-      .header-left i { color: #0f4c75; }
-      .page-title { margin: 0; }
-      .page-sub { color: #666; margin: 4px 0; }
-      .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+      /* --- Estilos de Acciones (Re-diseñados como Tarjetas Métricas) --- */
+      .actions {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        margin: 30px 0;
+      }
       .action-button {
-        display: inline-flex; align-items: center; gap: 8px;
-        padding: 10px 12px; border-radius: 8px;
-        text-decoration: none; color: #0f4c75;
-        border: 1px solid rgba(10,60,100,0.15);
-        background: #fff;
+        background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+        padding: 24px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        border: 1px solid rgba(12,50,80,0.08);
+        box-shadow: 0 4px 16px rgba(12,50,80,0.06);
+        transition: all 0.3s ease;
+        text-decoration: none;
       }
+      .action-button:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(12,50,80,0.12);
+        color: #0f4c81;
+      }
+      .action-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5em;
+        flex-shrink: 0;
+      }
+      .action-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #0f4c81;
+        margin: 0;
+      }
+      /* Colores de íconos de acción */
+      .action-button.create .action-icon {
+        background: linear-gradient(135deg, rgba(72,187,120,0.15), rgba(56,161,105,0.1));
+        color: #38a169;
+      }
+      .action-button.read .action-icon {
+        background: linear-gradient(135deg, rgba(66,153,225,0.15), rgba(49,130,206,0.1));
+        color: #3182ce;
+      }
+      .action-button.update .action-icon {
+        background: linear-gradient(135deg, rgba(237,137,54,0.15), rgba(221,107,32,0.1));
+        color: #dd6b20;
+      }
+
+      /* --- Estilos de Formularios (Re-diseñados como Info-Card) --- */
       .form-section {
-        background: #fff; border: 1px solid rgba(10,60,100,0.08);
-        border-radius: 10px; padding: 16px; margin: 10px 0;
+        background: white;
+        padding: 0;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(12,50,80,0.06);
+        overflow: hidden;
+        margin: 20px 0;
+        display: none; /* Oculto por defecto */
       }
-      .form-group { margin-bottom: 12px; }
-      .form-group label { display: block; font-weight: bold; margin-bottom: 6px; }
-      .form-group input, .form-group select { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #d0d7e3; }
-      .two-col { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 24px; align-items: start; }
+      .form-section.active {
+        display: block; /* Visible con clase 'active' */
+      }
+      .form-section .info-card-header {
+        padding: 20px 24px;
+        background: linear-gradient(135deg, #f8fbff 0%, #ffffff 100%);
+        border-bottom: 1px solid rgba(12,50,80,0.06);
+      }
+      .form-section h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        color: #0f4c81;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 600;
+      }
+      .form-section h3 i { font-size: 1.2em; opacity: 0.8; }
+      .form-content {
+        padding: 24px;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: #2d3748;
+        font-size: 0.9rem;
+      }
+      .form-group input, .form-group select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #cbd5e0;
+        border-radius: 8px;
+        font-size: 1rem;
+        box-sizing: border-box;
+      }
+      .form-group input:focus, .form-group select:focus {
+        outline: none;
+        border-color: #0b74b6;
+        box-shadow: 0 0 0 3px rgba(11, 116, 182, 0.1);
+      }
+      .submit-button { /* Botón unificado */
+        background: #0b74b6;
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      .submit-button:hover {
+        background: #0b4fa0;
+        box-shadow: 0 4px 12px rgba(11, 116, 182, 0.2);
+      }
+
+      /* Layout de 2 columnas */
+      .two-col {
+        display: grid;
+        grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+        gap: 24px;
+        align-items: start;
+      }
       @media (max-width: 640px) {
         .two-col { grid-template-columns: 1fr; gap: 18px; }
       }
-      .submit-button { background: #0f4c75; color: #fff; border: none; border-radius: 8px; padding: 10px 14px; cursor: pointer; }
-      .submit-button:hover { background: #0a3c64; }
-      .result { margin-top: 12px; padding: 10px; border-radius: 8px; border-left: 4px solid #999; background: #eef2f7; }
-      .result.success { background: #c6f6d5; border-left-color: #48bb78; color: #22543d; }
-      .result.error { background: #fed7d7; border-left-color: #f56565; color: #7b341e; }
-      .user-list { width: 100%; margin-top: 15px; }
-      .user-list th, .user-list td { text-align: left; padding: 15px 10px; border-bottom: 1px solid #d0d7e3; vertical-align: middle; }
-      .user-list th { background-color: #f0f4f8; }
-      .user-list .actions a { margin-right: 10px; color: #0f4c75; cursor: pointer; }
+
+      /* --- Estilos de Resultados (Unificados) --- */
+      .result {
+        padding: 15px 24px;
+        border-radius: 0;
+        margin: 0;
+        display: none;
+        font-weight: 500;
+      }
+      .result i { margin-right: 8px; }
+      .result.success {
+        background: #f0fff4;
+        border-top: 1px solid rgba(72, 187, 120, 0.2);
+        color: #2f855a;
+      }
+      .result.success i { color: #48bb78; }
+      .result.error {
+        background: #fff5f5;
+        border-top: 1px solid rgba(229, 62, 62, 0.2);
+        color: #c53030;
+      }
+      .result.error i { color: #f56565; }
+      
+      /* Contenedor para la grilla de tarjetas de resultado */
+      .result-grid-container {
+        padding: 24px;
+        background: #f8fbff;
+      }
+      .result-grid-container h4 {
+        margin: 0 0 16px 0;
+        color: #0f4c81;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      /* --- Estilos de Tarjetas (Unificados con Dashboard) --- */
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+      }
+      .card {
+        background: linear-gradient(135deg, #ffffff 0%, #fbfdff 100%);
+        border-radius: 14px;
+        border: 1px solid rgba(10,60,100,0.08);
+        box-shadow: 0 2px 12px rgba(12,50,80,0.04);
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+      .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(12,50,80,0.1);
+      }
+      .card-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #0f4c81;
+        font-weight: 600;
+        padding: 14px 18px;
+        border-bottom: 1px solid rgba(12,50,80,0.06);
+      }
+      .card-header i { font-size: 1.1em; }
+      .card-title { font-size: 0.98rem; margin: 0; }
+      .card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 18px;
+      }
+      .card-body p {
+        margin: 0;
+        color: #5b7f98;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.92rem;
+      }
+      .card-body p i {
+        color: #0f4c81;
+        opacity: 0.7;
+        width: 16px;
+      }
+      /* Acciones dentro de la tarjeta de usuario */
+      .card-actions {
+        display: flex;
+        gap: 16px;
+        margin-top: 12px;
+        border-top: 1px solid rgba(12,50,80,0.08);
+        padding-top: 12px;
+      }
+      .card-actions a {
+        color: #0b74b6;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .card-actions a:hover { color: #0b4fa0; }
+      .card-actions a.delete { color: #e53e3e; }
+      .card-actions a.delete:hover { color: #c53030; }
+      .page-sub {
+        font-size: 1rem;
+        color: #5b7f98;
+        margin: 4px 0;
+      }
 
   body
     include partials/sidebar.pug
@@ -52,140 +268,210 @@ html(lang='es')
       .container
         +pageHeader(user, 'Gestión de Usuarios')
 
+        //- --- Botones de Acción (Re-diseñados) ---
         .actions
           if user && user.role === 'Administrativo'
-            a.action-button.create(href='#' onclick='showCreate()')
-              i.icon.fas.fa-user-plus
-              | Crear Usuario
-            a.action-button.admin(href='#' onclick='showAdmin()')
-              i.icon.fas.fa-users-cog
-              | Administrar Usuarios
+            a.action-button.create(href='#' onclick='showForm("create")')
+              .action-icon
+                i.fas.fa-user-plus
+              .action-title Crear Usuario
+            a.action-button.read(href='#' onclick='showForm("admin")')
+              .action-icon
+                i.fas.fa-users-cog
+              .action-title Administrar Usuarios
           else
             p.page-sub Solo personal administrativo puede gestionar usuarios.
 
         if user && user.role === 'Administrativo'
-          .form-section#admin-users-section(style='display:none')
-            h3
-              i.fas.fa-users-cog
-              | Administrar Usuarios
+          //- --- Formulario Administrar (Re-diseñado) ---
+          .form-section#admin-form
+            .info-card-header
+              h3
+                i.fas.fa-users-cog
+                | Administrar Usuarios
+            //- El JS pondrá los mensajes de éxito/error aquí
             .result#admin-result(style='display:none')
-            .user-list#user-list-container
-              //- User list will be loaded here
-          .form-section#create-user-form
-            h3
-              i.fas.fa-user-plus
-              | Crear Nuevo Usuario
-            form(onsubmit='createUsuario(event)')
-              .two-col
+            //- El JS pondrá la grilla de tarjetas aquí
+            .result.result-grid-container#admin-user-list(style='display:none')
+              //- El JS cargará el .cards-grid aquí
+
+          //- --- Formulario Crear Usuario (Re-diseñado) ---
+          .form-section#create-form
+            .info-card-header
+              h3
+                i.fas.fa-user-plus
+                | Crear Nuevo Usuario
+            .form-content
+              form(onsubmit='createUsuario(event)')
+                .two-col
+                  .form-group
+                    label(for='username') Usuario
+                    input(type='text' id='username' name='username' required)
+                  .form-group
+                    label(for='password') Contraseña
+                    input(type='password' id='password' name='password' required)
                 .form-group
-                  label(for='username') Usuario
-                  input(type='text' id='username' name='username' required)
-                .form-group
-                  label(for='password') Contraseña
-                  input(type='password' id='password' name='password' required)
-              .form-group
-                label(for='role') Rol
-                select(id='role' name='role' required onchange='onRoleChange()')
-                  option(value='') Seleccione rol...
-                  option(value='Administrativo') Administrativo
-                  option(value='Medico') Médico
-                  option(value='Paciente') Paciente
-              .form-group#medicoRefGroup(style='display:none')
-                label(for='medicoRef') Seleccionar Médico (para usuarios rol Médico)
-                select(id='medicoRef' name='medicoId')
-                  option(value='') Seleccionar médico...
-              .form-group#pacienteRefGroup(style='display:none')
-                label(for='pacienteRef') Seleccionar Paciente (para usuarios rol Paciente)
-                select(id='pacienteRef' name='pacienteId')
-                  option(value='') Seleccionar paciente...
-              button.submit-button(type='submit') Crear Usuario
+                  label(for='role') Rol
+                  select(id='role' name='role' required onchange='onRoleChange()')
+                    option(value='') Seleccione rol...
+                    option(value='Administrativo') Administrativo
+                    option(value='Medico') Médico
+                    option(value='Paciente') Paciente
+                .form-group#medicoRefGroup(style='display:none')
+                  label(for='medicoRef') Seleccionar Médico (para usuarios rol Médico)
+                  select(id='medicoRef' name='medicoId')
+                    option(value='') Seleccionar médico...
+                .form-group#pacienteRefGroup(style='display:none')
+                  label(for='pacienteRef') Seleccionar Paciente (para usuarios rol Paciente)
+                  select(id='pacienteRef' name='pacienteId')
+                    option(value='') Seleccionar paciente...
+                button.submit-button(type='submit') Crear Usuario
             .result#create-result(style='display:none')
 
+          //- --- Formulario Editar Usuario (Re-diseñado) ---
+          .form-section#edit-form
+            .info-card-header
+              h3
+                i.fas.fa-edit
+                | Editar Usuario
+            .form-content
+              form(onsubmit='updateUser(event)')
+                input(type='hidden' id='edit-userId' name='userId')
+                .form-group
+                  label(for='edit-username') Usuario
+                  input(type='text' id='edit-username' name='username' required)
+                .form-group
+                  label(for='edit-password') Nueva Contraseña
+                  input(type='password' id='edit-password' name='password' placeholder='Dejar en blanco para no cambiar')
+                button.submit-button(type='submit') Actualizar Usuario
+                button.submit-button(type='button' onclick='cancelEdit()' style='background:#6c757d; margin-left:10px;') Cancelar
+            .result#edit-result(style='display:none')
+
+    //- --- SCRIPT (Copiado de tu prompt, es el correcto) ---
     script.
-      function showResult(elemId, message, success){
-        const el = document.getElementById(elemId);
-        if (!message || (typeof message === 'string' && message.trim() === '')){
-          el.style.display = 'none';
-          el.className = 'result';
-          el.innerHTML = '';
+      // --- (de Pacientes) Función para mostrar formularios ---
+      function showForm(formType) {
+        // Ocultar todos los formularios
+        const forms = document.querySelectorAll('.form-section');
+        forms.forEach(form => form.classList.remove('active'));
+        
+        // Mostrar el formulario seleccionado
+        const activeForm = document.getElementById(formType + '-form');
+        if (activeForm) {
+          activeForm.classList.add('active');
+        }
+        
+        // Lógica específica al mostrar un formulario
+        if (formType === 'admin') {
+          loadUsers();
+        }
+        
+        // Limpiar todos los resultados
+        const results = document.querySelectorAll('.result');
+        results.forEach(result => {
+          result.style.display = 'none';
+          result.innerHTML = '';
+          result.className = 'result'; // Resetea clases
+        });
+      }
+
+      // --- (de Pacientes) Función para mostrar resultados con íconos ---
+      function showResult(elementId, message, isSuccess = true) {
+        const result = document.getElementById(elementId);
+        if (!result) return;
+        
+        if (!message || (typeof message === 'string' && message.trim() === '')) {
+          result.style.display = 'none';
+          result.className = 'result';
+          result.innerHTML = '';
           return;
         }
-        el.className = 'result ' + (success ? 'success' : 'error');
-        el.style.display = 'block';
-        el.innerHTML = message;
+
+        const iconHtml = isSuccess ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-times-circle"></i>';
+        result.innerHTML = `${iconHtml} ${message}`;
+        result.className = 'result ' + (isSuccess ? 'success' : 'error');
+        result.style.display = 'block';
+      }
+      
+      // --- MODIFICADO: Muestra resultados en el contenedor de grilla ---
+      function showCardResult(elementId, htmlContent, isSuccess = true) {
+        const container = document.getElementById(elementId);
+        container.className = 'result result-grid-container ' + (isSuccess ? 'success' : 'error');
+        container.style.display = 'block';
+        container.innerHTML = htmlContent;
+      }
+      
+      function cancelEdit() {
+        showForm('admin');
       }
 
-      function showCreate(){
-        document.getElementById('create-user-form').style.display = 'block';
-        document.getElementById('admin-users-section').style.display = 'none';
-      }
-
-      function showAdmin(){
-        document.getElementById('create-user-form').style.display = 'none';
-        document.getElementById('admin-users-section').style.display = 'block';
-        loadUsers();
-      }
-
-      async function loadUsers(){
+      // --- (Modificada) Cargar usuarios en Tarjetas ---
+      async function loadUsers() {
         try {
           const res = await fetch('/api/auth/users');
           const data = await res.json();
-          const container = document.getElementById('user-list-container');
-          if (res.ok && Array.isArray(data.data)){
-            let table = `<table class='user-list'>
-              <thead><tr><th>ID</th><th>Usuario</th><th>Rol</th><th>Acciones</th></tr></thead>
-              <tbody>`;
+          
+          if (res.ok && Array.isArray(data.data)) {
+            let html = `<h4><i class="fas fa-users"></i> ${data.data.length} Usuarios Encontrados</h4><div class="cards-grid">`;
             data.data.forEach(u => {
-              table += `<tr>
-                <td>${u.id}</td>
-                <td>${u.username}</td>
-                <td>${u.role}</td>
-                <td class='actions'>
-                  <a onclick='editUser(${JSON.stringify(u)})'><i class='fas fa-edit'></i></a>
-                  <a onclick="deleteUser('${u.id}')"><i class='fas fa-trash'></i></a>
-                </td>
-              </tr>`;
+              // Preparamos los datos del usuario para el 'onclick'
+              const userJson = JSON.stringify(u).replace(/"/g, "'");
+              
+              html += `
+                <div class="card">
+                  <div class="card-header">
+                    <i class="fas fa-user-circle"></i>
+                    <div class="card-title">${u.username}</div>
+                  </div>
+                  <div class="card-body">
+                    <p><i class="fas fa-id-badge"></i> ID: ${u.id}</p>
+                    <p><i class="fas fa-shield-alt"></i> Rol: ${u.role}</p>
+                    <div class="card-actions">
+                      <a href="#" onclick="event.preventDefault(); editUser(${userJson})">
+                        <i class="fas fa-edit"></i> Editar
+                      </a>
+                      <a href="#" class="delete" onclick="event.preventDefault(); deleteUser('${u.id}')">
+                        <i class="fas fa-trash"></i> Eliminar
+                      </a>
+                    </div>
+                  </div>
+                </div>`;
             });
-            table += '</tbody></table>';
-            container.innerHTML = table;
+            html += '</div>';
+            
+            showCardResult('admin-user-list', html, true); // --- MODIFICADO ---
+            showResult('admin-result', 'Usuarios cargados.', true);
           } else {
-            container.innerHTML = '<p>No se pudieron cargar los usuarios.</p>';
+            showResult('admin-result', 'No se pudieron cargar los usuarios.', false);
           }
-        } catch(err){
+        } catch (err) {
           console.error(err);
-          document.getElementById('user-list-container').innerHTML = '<p>Error al cargar usuarios.</p>';
+          showResult('admin-result', 'Error de conexión al cargar usuarios.', false);
         }
       }
 
+      // --- (Modificada) Editar usuario usando el formulario estático ---
       function editUser(user) {
-        const container = document.getElementById('user-list-container');
-        container.innerHTML = `
-          <div class="form-section">
-            <h3>Editando Usuario: ${user.username}</h3>
-            <form onsubmit="updateUser(event, '${user.id}')">
-              <div class="form-group">
-                <label for="edit-username">Nuevo Usuario</label>
-                <input type="text" id="edit-username" name="username" value="${user.username}" required>
-              </div>
-              <div class="form-group">
-                <label for="edit-password">Nueva Contraseña (dejar en blanco para no cambiar)</label>
-                <input type="password" id="edit-password" name="password">
-              </div>
-              <button class="submit-button" type="submit">Actualizar Usuario</button>
-              <button class="submit-button" type="button" onclick="loadUsers()">Cancelar</button>
-            </form>
-            <div class="result" id="edit-result" style="display:none"></div>
-          </div>
-        `;
+        // Mostrar el formulario de edición
+        showForm('edit');
+        
+        // Llenar los campos del formulario
+        document.getElementById('edit-userId').value = user.id;
+        document.getElementById('edit-username').value = user.username;
+        document.getElementById('edit-password').value = ''; // Limpiar campo de contraseña
+        
+        showResult('edit-result', `Editando usuario: ${user.username}`, true);
       }
 
-      async function updateUser(event, userId) {
+      // --- (Modificada) Actualizar usuario ---
+      async function updateUser(event) {
         event.preventDefault();
+        const userId = document.getElementById('edit-userId').value;
         const username = document.getElementById('edit-username').value.trim();
         const password = document.getElementById('edit-password').value;
 
         const body = { username };
-        if (password) {
+        if (password && password.length > 0) {
           body.password = password;
         }
 
@@ -197,8 +483,10 @@ html(lang='es')
           });
           const result = await response.json();
           if (response.ok) {
-            showResult('admin-result', 'Usuario actualizado correctamente.', true);
-            loadUsers();
+            showResult('edit-result', 'Usuario actualizado correctamente.', true);
+            setTimeout(() => {
+              showForm('admin'); // Volver a la lista
+            }, 1500);
           } else {
             showResult('edit-result', result.message || 'Error al actualizar usuario', false);
           }
@@ -207,6 +495,7 @@ html(lang='es')
         }
       }
 
+      // --- (Modificada) Eliminar usuario ---
       async function deleteUser(userId) {
         if (confirm(`¿Está seguro de que desea eliminar el usuario con ID ${userId}?`)) {
           try {
@@ -227,13 +516,14 @@ html(lang='es')
         }
       }
 
-      async function loadMedicos(){
+      // --- (Sin cambios lógicos) ---
+      async function loadMedicos() {
         try {
           const res = await fetch('/api/medicos');
           const data = await res.json();
           const sel = document.getElementById('medicoRef');
           sel.innerHTML = `<option value=''>Seleccionar médico...</option>`;
-          if (res.ok && Array.isArray(data.data)){
+          if (res.ok && Array.isArray(data.data)) {
             data.data.forEach(m => {
               const id = m._id || m.IdMedico;
               const opt = document.createElement('option');
@@ -241,16 +531,17 @@ html(lang='es')
               sel.appendChild(opt);
             });
           }
-        } catch(err){ console.error(err); }
+        } catch (err) { console.error(err); }
       }
 
-      async function loadPacientes(){
+      // --- (Sin cambios lógicos) ---
+      async function loadPacientes() {
         try {
           const res = await fetch('/api/pacientes');
           const data = await res.json();
           const sel = document.getElementById('pacienteRef');
           sel.innerHTML = `<option value=''>Seleccionar paciente...</option>`;
-          if (res.ok && Array.isArray(data.data)){
+          if (res.ok && Array.isArray(data.data)) {
             data.data.forEach(p => {
               const id = p._id || p.IdPaciente;
               const opt = document.createElement('option');
@@ -258,20 +549,21 @@ html(lang='es')
               sel.appendChild(opt);
             });
           }
-        } catch(err){ console.error(err); }
+        } catch (err) { console.error(err); }
       }
 
-      function onRoleChange(){
+      // --- (Sin cambios lógicos) ---
+      function onRoleChange() {
         const role = document.getElementById('role').value;
         const medicoGroup = document.getElementById('medicoRefGroup');
         const pacienteGroup = document.getElementById('pacienteRefGroup');
-        if (role === 'Medico'){
-          medicoGroup.style.display = '';
+        if (role === 'Medico') {
+          medicoGroup.style.display = 'block';
           pacienteGroup.style.display = 'none';
           loadMedicos();
-        } else if (role === 'Paciente'){
+        } else if (role === 'Paciente') {
           medicoGroup.style.display = 'none';
-          pacienteGroup.style.display = '';
+          pacienteGroup.style.display = 'block';
           loadPacientes();
         } else {
           medicoGroup.style.display = 'none';
@@ -279,23 +571,23 @@ html(lang='es')
         }
       }
 
-      async function createUsuario(event){
+      // --- (Modificada) Crear usuario ---
+      async function createUsuario(event) {
         event.preventDefault();
-        const username = document.getElementById('username').value.trim();
-        const password = document.getElementById('password').value;
-        const role = document.getElementById('role').value;
-        const medicoId = document.getElementById('medicoRef').value || null;
-        const pacienteId = document.getElementById('pacienteRef').value || null;
+        const formData = new FormData(event.target);
+        const role = formData.get('role');
+        const medicoId = formData.get('medicoId') || null;
+        const pacienteId = formData.get('pacienteId') || null;
 
-        if (!username || !password || !role){
+        if (!formData.get('username') || !formData.get('password') || !role) {
           showResult('create-result', 'Complete usuario, contraseña y rol', false);
           return;
         }
-        if (role === 'Medico' && !medicoId){
+        if (role === 'Medico' && !medicoId) {
           showResult('create-result', 'Seleccione un médico para el usuario con rol Médico', false);
           return;
         }
-        if (role === 'Paciente' && !pacienteId){
+        if (role === 'Paciente' && !pacienteId) {
           showResult('create-result', 'Seleccione un paciente para el usuario con rol Paciente', false);
           return;
         }
@@ -304,22 +596,30 @@ html(lang='es')
           const response = await fetch('/api/auth/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password, role, medicoId, pacienteId })
+            body: JSON.stringify({
+              username: formData.get('username'),
+              password: formData.get('password'),
+              role,
+              medicoId,
+              pacienteId
+            })
           });
           const result = await response.json();
-          if (response.ok){
+          if (response.ok) {
             const u = result.data;
             showResult('create-result', `<strong>Usuario creado:</strong> ID ${u.id} · ${u.username} · Rol ${u.role}`, true);
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-            document.getElementById('role').value = '';
-            document.getElementById('medicoRef').value = '';
-            document.getElementById('pacienteRef').value = '';
+            event.target.reset();
             onRoleChange();
           } else {
             showResult('create-result', result.message || 'Error al crear usuario', false);
           }
-        } catch(error){
+        } catch (error) {
           showResult('create-result', 'Error de conexión: ' + error.message, false);
         }
       }
+      
+      // --- Inicializar mostrando el primer formulario (opcional) ---
+      document.addEventListener('DOMContentLoaded', () => {
+        // Por defecto, muestra el formulario de crear
+        showForm('create');
+      });

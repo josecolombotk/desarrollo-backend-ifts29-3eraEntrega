@@ -1,14 +1,20 @@
 mixin sidebar(user, activePage)
+  //- Definir homeHref para el link de "Inicio"
+  - var homeHref = '/'
+  if user && user.role === 'Medico'
+    - homeHref = '/dashboard/medico'
+  else if user && user.role === 'Paciente'
+    - homeHref = '/dashboard/paciente'
+  else
+    - homeHref = '/'
+
   .sidebar(class=(user && user.role === 'Administrativo') ? 'admin' : (user && user.role === 'Medico') ? 'medico' : (user && user.role === 'Paciente') ? 'paciente' : '')
-    .logo SI
+    
+    //- --- (MODIFICADO) El logo ahora es un ícono ---
+    .logo
+      i.fas.fa-star-of-life
+
     nav
-      - var homeHref = '/'
-      if user && user.role === 'Medico'
-        - homeHref = '/dashboard/medico'
-      else if user && user.role === 'Paciente'
-        - homeHref = '/dashboard/paciente'
-      else
-        - homeHref = '/'
       a(href=homeHref title='Inicio' class=(activePage === 'inicio' ? 'active' : ''))
         i.fas.fa-house
       if !user || user.role === 'Administrativo'

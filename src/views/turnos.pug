@@ -8,127 +8,97 @@ html(lang='es')
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css')
     include partials/layoutStyles.pug
     include partials/headerModule.pug
+
+    //- --- ESTILOS UNIFICADOS (Basados en el Dashboard) ---
     style.
-      /* --- Estilos de tarjetas reutilizables --- */
-      .cards-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 16px;
-        margin-top: 12px;
-      }
-      .card {
-        background: #fff;
-        border-radius: 12px;
-        border: 1px solid rgba(12,50,80,0.06);
-        box-shadow: 0 10px 24px rgba(2,6,23,0.06);
-        overflow: hidden;
-        transition: transform .18s ease, box-shadow .18s ease;
-      }
-      .card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 14px 32px rgba(2,6,23,0.10);
-      }
-      .card-header {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 14px 16px;
-        border-bottom: 1px solid rgba(12,50,80,0.06);
-      }
-      .card-header i {
-        color: #0f4c81;
-        font-size: 1.2rem;
-      }
-      .card-title {
-        font-weight: 600;
-        color: #0f4c81;
-      }
-      .card-body {
-        padding: 12px 16px 16px;
-      }
-      .card-body p {
-        margin: 8px 0;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        color: #2d3748;
-      }
-      .card-body p i {
-        color: #5b7f98;
-      }
-      
-      /* --- Estilos Específicos de Turnos (Fusionados) --- */
+      /* --- Estilos de Acciones (Re-diseñados como Tarjetas Métricas) --- */
       .actions {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         gap: 20px;
         margin: 30px 0;
       }
       .action-button {
-        display: block;
-        padding: 20px;
-        text-decoration: none;
-        border-radius: 10px;
-        text-align: center;
-        font-weight: bold;
-        font-size: 1.1em;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        color: white;
-      }
-      .action-button:hover {
-        transform: translateY(-2px);
-        color: white;
-        text-decoration: none;
-      }
-      .action-button .icon { /* Estilo para el ícono dentro del botón */
-        font-size: 2em;
-        display: block;
-        margin-bottom: 10px;
-      }
-      .create {
-        background: linear-gradient(135deg, #48bb78, #38a169);
-        box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
-      }
-      .create:hover {
-        box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
-      }
-      .read {
-        background: linear-gradient(135deg, #4299e1, #3182ce);
-        box-shadow: 0 4px 15px rgba(66, 153, 225, 0.3);
-      }
-      .read:hover {
-        box-shadow: 0 6px 20px rgba(66, 153, 225, 0.4);
-      }
-      .update {
-        background: linear-gradient(135deg, #ed8936, #dd6b20);
-        box-shadow: 0 4px 15px rgba(237, 137, 54, 0.3);
-      }
-      .update:hover {
-        box-shadow: 0 6px 20px rgba(237, 137, 54, 0.4);
-      }
-      .delete {
-        background: linear-gradient(135deg, #f56565, #e53e3e);
-        box-shadow: 0 4px 15px rgba(245, 101, 101, 0.3);
-      }
-      .delete:hover {
-        box-shadow: 0 6px 20px rgba(245, 101, 101, 0.4);
-      }
-      .form-section {
-        background: #f7fafc;
-        padding: 20px;
-        border-radius: 10px;
-        margin: 20px 0;
-        display: none;
-        border: 1px solid rgba(12,50,80,0.04);
-      }
-      .form-section h3 {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+        padding: 24px;
+        border-radius: 16px;
         display: flex;
         align-items: center;
-        gap: 10px;
-        color: #2d3748;
+        gap: 16px;
+        border: 1px solid rgba(12,50,80,0.08);
+        box-shadow: 0 4px 16px rgba(12,50,80,0.06);
+        transition: all 0.3s ease;
+        text-decoration: none;
+      }
+      .action-button:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(12,50,80,0.12);
+        color: #0f4c81;
+      }
+      .action-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5em;
+        flex-shrink: 0;
+      }
+      .action-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #0f4c81;
+        margin: 0;
+      }
+      /* Colores de íconos de acción */
+      .action-button.create .action-icon {
+        background: linear-gradient(135deg, rgba(72,187,120,0.15), rgba(56,161,105,0.1));
+        color: #38a169;
+      }
+      .action-button.read .action-icon {
+        background: linear-gradient(135deg, rgba(66,153,225,0.15), rgba(49,130,206,0.1));
+        color: #3182ce;
+      }
+      .action-button.update .action-icon {
+        background: linear-gradient(135deg, rgba(237,137,54,0.15), rgba(221,107,32,0.1));
+        color: #dd6b20;
+      }
+      .action-button.delete .action-icon {
+        background: linear-gradient(135deg, rgba(245,101,101,0.15), rgba(229,62,62,0.1));
+        color: #e53e3e;
+      }
+
+      /* --- Estilos de Formularios (Re-diseñados como Info-Card) --- */
+      .form-section {
+        background: white;
+        padding: 0;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(12,50,80,0.06);
+        overflow: hidden;
+        margin: 20px 0;
+        display: none; /* Oculto por defecto */
       }
       .form-section.active {
-        display: block;
+        display: block; /* Visible con clase 'active' */
+      }
+      .form-section .info-card-header {
+        padding: 20px 24px;
+        background: linear-gradient(135deg, #f8fbff 0%, #ffffff 100%);
+        border-bottom: 1px solid rgba(12,50,80,0.06);
+      }
+      .form-section h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        color: #0f4c81;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 600;
+      }
+      .form-section h3 i { font-size: 1.2em; opacity: 0.8; }
+      .form-content {
+        padding: 24px;
       }
       .form-group {
         margin-bottom: 15px;
@@ -136,69 +106,153 @@ html(lang='es')
       .form-group label {
         display: block;
         margin-bottom: 5px;
-        font-weight: bold;
+        font-weight: 600;
         color: #2d3748;
+        font-size: 0.9rem;
       }
       .form-group input, .form-group select {
         width: 100%;
-        padding: 10px;
+        padding: 10px 12px;
         border: 1px solid #cbd5e0;
-        border-radius: 5px;
-        font-size: 16px;
-        box-sizing: border-box; /* Añadido para consistencia de tamaño */
+        border-radius: 8px;
+        font-size: 1rem;
+        box-sizing: border-box;
       }
       .form-group input:focus, .form-group select:focus {
         outline: none;
         border-color: #0b74b6;
         box-shadow: 0 0 0 3px rgba(11, 116, 182, 0.1);
       }
-      .submit-button {
+      .submit-button { /* Botón unificado */
         background: #0b74b6;
         color: white;
         padding: 12px 24px;
         border: none;
-        border-radius: 5px;
-        font-size: 16px;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
         cursor: pointer;
-        transition: background 0.3s ease;
+        transition: all 0.2s ease;
         margin-top: 10px;
         margin-bottom: 10px;
       }
       .submit-button:hover {
         background: #0b4fa0;
+        box-shadow: 0 4px 12px rgba(11, 116, 182, 0.2);
       }
-      .result {
-        background: #edf2f7;
-        padding: 15px;
-        border-radius: 5px;
-        margin-top: 15px;
-        display: none;
+      .form-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: flex-end;
       }
-      .result i { /* Estilo para íconos en resultados */
-        margin-right: 8px;
+      hr.form-divider {
+        border: none;
+        border-top: 1px solid #e2e8f0;
+        margin: 24px 0;
       }
-      .result.success {
-        background: #f0fff4;
-        border-left: 4px solid #48bb78;
-        color: #2f855a;
-      }
-      .result.success i {
-        color: #48bb78;
-      }
-      .result.error {
-        background: #fed7d7;
-        border-left: 4px solid #f56565;
-        color: #c53030;
-      }
-      .result.error i {
-        color: #f56565;
-      }
+      /* Específico de este formulario */
       .form-row {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 15px;
       }
+      @media (max-width: 600px) {
+        .form-row { grid-template-columns: 1fr; }
+      }
 
+      /* --- Estilos de Resultados (Unificados) --- */
+      .result {
+        padding: 15px 24px;
+        border-radius: 0;
+        margin: 0;
+        display: none;
+        font-weight: 500;
+      }
+      .result i { margin-right: 8px; }
+      .result.success {
+        background: #f0fff4;
+        border-top: 1px solid rgba(72, 187, 120, 0.2);
+        color: #2f855a;
+      }
+      .result.success i { color: #48bb78; }
+      .result.error {
+        background: #fff5f5;
+        border-top: 1px solid rgba(229, 62, 62, 0.2);
+        color: #c53030;
+      }
+      .result.error i { color: #f56565; }
+      
+      .result-grid-container {
+        padding: 24px;
+        background: #f8fbff;
+      }
+      .result-grid-container h4 {
+        margin: 0 0 16px 0;
+        color: #0f4c81;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      /* --- Estilos de Tarjetas (Unificados con Dashboard) --- */
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+      }
+      .card {
+        background: linear-gradient(135deg, #ffffff 0%, #fbfdff 100%);
+        border-radius: 14px;
+        border: 1px solid rgba(10,60,100,0.08);
+        box-shadow: 0 2px 12px rgba(12,50,80,0.04);
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+      .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(12,50,80,0.1);
+      }
+      .card-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #0f4c81;
+        font-weight: 600;
+        padding: 14px 18px;
+        border-bottom: 1px solid rgba(12,50,80,0.06);
+      }
+      .card-header i { font-size: 1.1em; }
+      .card-title { font-size: 0.98rem; margin: 0; }
+      .card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 18px;
+      }
+      .card-body p {
+        margin: 0;
+        color: #5b7f98;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.92rem;
+      }
+      .card-body p i {
+        color: #0f4c81;
+        opacity: 0.7;
+        width: 16px;
+      }
+      .card.turno-card:hover {
+        cursor: pointer;
+        border-color: #0b74b6;
+      }
+      .page-sub {
+        font-size: 1rem;
+        color: #5b7f98;
+        margin: 4px 0;
+      }
 
   body
     include partials/sidebar.pug
@@ -208,130 +262,153 @@ html(lang='es')
       .container
         +pageHeader(user, 'Gestión de Turnos')
         
-        // --- Contenido de la página de Turnos con íconos ---
+        //- --- Botones de Acción (Re-diseñados) ---
         .actions
           if !user || user.role === 'Administrativo'
             a.action-button.create(href='#' onclick='showForm("create")')
-              i.icon.fas.fa-plus-circle
-              | Crear Turno
+              .action-icon
+                i.fas.fa-plus-circle
+              .action-title Crear Turno
             a.action-button.read(href='#' onclick='showForm("read")')
-              i.icon.fas.fa-search
-              | Consultar Turnos
+              .action-icon
+                i.fas.fa-search
+              .action-title Consultar
             a.action-button.update(href='#' onclick='showForm("update")')
-              i.icon.fas.fa-edit
-              | Modificar Turno
+              .action-icon
+                i.fas.fa-edit
+              .action-title Modificar
             a.action-button.delete(href='#' onclick='showForm("delete")')
-              i.icon.fas.fa-trash-alt
-              | Eliminar Turno
+              .action-icon
+                i.fas.fa-trash-alt
+              .action-title Eliminar
           else if user && user.role === 'Medico'
             a.action-button.read(href='#' onclick='showForm("read")')
-              i.icon.fas.fa-search
-              | Consultar Turnos
+              .action-icon
+                i.fas.fa-search
+              .action-title Consultar Turnos
           else if user && user.role === 'Paciente'
             a.action-button.read(href='#' onclick='showForm("read")')
-              i.icon.fas.fa-search
-              | Mis Turnos
+              .action-icon
+                i.fas.fa-search
+              .action-title Mis Turnos
       
+        //- --- Formularios (Re-diseñados como .info-card) ---
+        
         // Formulario Crear Turno
         .form-section#create-form
-          h3
-            i.fas.fa-plus-circle
-            | Crear Nuevo Turno
-          form(onsubmit='createTurno(event)')
-            .form-group
-              label(for='fecha') Fecha:
-              input(type='date' id='fecha' name='fecha' required)
-            .form-row
+          .info-card-header
+            h3
+              i.fas.fa-plus-circle
+              | Crear Nuevo Turno
+          .form-content
+            form(onsubmit='createTurno(event)')
               .form-group
-                label(for='horaInicio') Hora de Inicio:
-                input(type='time' id='horaInicio' name='horaInicio' required)
+                label(for='fecha') Fecha:
+                input(type='date' id='fecha' name='fecha' required)
+              .form-row
+                .form-group
+                  label(for='horaInicio') Hora de Inicio:
+                  input(type='time' id='horaInicio' name='horaInicio' required)
+                .form-group
+                  label(for='horaFin') Hora de Fin:
+                  input(type='time' id='horaFin' name='horaFin' required)
               .form-group
-                label(for='horaFin') Hora de Fin:
-                input(type='time' id='horaFin' name='horaFin' required)
-            .form-group
-              label(for='idPaciente') Paciente:
-              select(id='idPaciente' name='idPaciente' required)
-                option(value='') Seleccionar paciente...
-            .form-group
-              label(for='idMedico') Médico:
-              select(id='idMedico' name='idMedico' required)
-                option(value='') Seleccionar médico...
-            button.submit-button(type='submit') Crear Turno
+                label(for='idPaciente') Paciente:
+                select(id='idPaciente' name='idPaciente' required)
+                  option(value='') Seleccionar paciente...
+              .form-group
+                label(for='idMedico') Médico:
+                select(id='idMedico' name='idMedico' required)
+                  option(value='') Seleccionar médico...
+              button.submit-button(type='submit') Crear Turno
           .result#create-result
         
         // Formulario Consultar Turnos
         .form-section#read-form
-          h3
-            i.fas.fa-search
-            | Consultar Turnos
-          if user && user.role === 'Administrativo'
-            button.submit-button(onclick='getAllTurnos()') Ver Todos los Turnos
-          .form-group(style='margin-top: 20px;')
-            label(for='searchFecha') Buscar por Fecha:
-            input(type='date' id='searchFecha' name='searchFecha')
-            button.submit-button(onclick='getTurnosByFecha()') Buscar
-          if user && user.role === 'Administrativo'
-            .form-group(style='margin-top: 20px;')
-              label(for='searchPaciente') Buscar por Paciente:
-              select(id='searchPaciente' name='searchPaciente')
-                option(value='') Seleccionar paciente...
-              button.submit-button(onclick='getTurnosByPaciente()') Buscar
-            .form-group(style='margin-top: 20px;')
-              label(for='searchMedico') Buscar por Médico:
-              select(id='searchMedico' name='searchMedico')
-                option(value='') Seleccionar médico...
-              button.submit-button(onclick='getTurnosByMedico()') Buscar
-          else
-            p.page-sub Tus turnos se mostrarán automáticamente abajo.
+          .info-card-header
+            h3
+              i.fas.fa-search
+              | Consultar Turnos
+          .form-content
+            if user && user.role === 'Administrativo'
+              .form-actions
+                button.submit-button(onclick='getAllTurnos()') Ver Todos
+              hr.form-divider
+            .form-actions
+              .form-group(style='margin-bottom:0; flex-grow:1;')
+                label(for='searchFecha') Buscar por Fecha:
+                input(type='date' id='searchFecha' name='searchFecha')
+              button.submit-button(onclick='getTurnosByFecha()') Buscar
+            if user && user.role === 'Administrativo'
+              hr.form-divider
+              .form-actions
+                .form-group(style='margin-bottom:0; flex-grow:1;')
+                  label(for='searchPaciente') Buscar por Paciente:
+                  select(id='searchPaciente' name='searchPaciente')
+                    option(value='') Seleccionar paciente...
+                button.submit-button(onclick='getTurnosByPaciente()') Buscar
+              hr.form-divider
+              .form-actions
+                .form-group(style='margin-bottom:0; flex-grow:1;')
+                  label(for='searchMedico') Buscar por Médico:
+                  select(id='searchMedico' name='searchMedico')
+                    option(value='') Seleccionar médico...
+                button.submit-button(onclick='getTurnosByMedico()') Buscar
+            else
+              p.page-sub(style='margin-top:20px;') Tus turnos se mostrarán automáticamente.
           .result#read-result
         
-        // Formulario Modificar Turno (CAMBIADO POR EL MERGE)
+        // Formulario Modificar Turno
         .form-section#update-form
-          h3
-            i.fas.fa-edit
-            | Modificar Turno
-          .form-group
-            // --- INICIO DEL CAMBIO ---
-            label(for='updateTurnoSelect') Seleccionar Turno:
-            select(id='updateTurnoSelect' name='updateTurnoSelect' required)
-              option(value='') Seleccionar turno...
-            // --- FIN DEL CAMBIO ---
+          .info-card-header
+            h3
+              i.fas.fa-edit
+              | Modificar Turno
+          .form-content
+            .form-group
+              label(for='updateTurnoSelect') Seleccionar Turno:
+              select(id='updateTurnoSelect' name='updateTurnoSelect' required)
+                option(value='') Seleccionar turno...
             button.submit-button(onclick='loadTurnoData()') Cargar Datos
-          form(onsubmit='updateTurno(event)' style='display:none' id='update-data-form')
-            .form-group
-              label(for='updateFecha') Fecha:
-              input(type='date' id='updateFecha' name='updateFecha' required)
-            .form-row
+            
+            form(onsubmit='updateTurno(event)' style='display:none' id='update-data-form')
+              hr.form-divider
               .form-group
-                label(for='updateHoraInicio') Hora de Inicio:
-                input(type='time' id='updateHoraInicio' name='updateHoraInicio' required)
+                label(for='updateFecha') Fecha:
+                input(type='date' id='updateFecha' name='updateFecha' required)
+              .form-row
+                .form-group
+                  label(for='updateHoraInicio') Hora de Inicio:
+                  input(type='time' id='updateHoraInicio' name='updateHoraInicio' required)
+                .form-group
+                  label(for='updateHoraFin') Hora de Fin:
+                  input(type='time' id='updateHoraFin' name='updateHoraFin' required)
               .form-group
-                label(for='updateHoraFin') Hora de Fin:
-                input(type='time' id='updateHoraFin' name='updateHoraFin' required)
-            .form-group
-              label(for='updateIdPaciente') Paciente:
-              select(id='updateIdPaciente' name='updateIdPaciente' required)
-                option(value='') Seleccionar paciente...
-            .form-group
-              label(for='updateIdMedico') Médico:
-              select(id='updateIdMedico' name='updateIdMedico' required)
-                option(value='') Seleccionar médico...
-            button.submit-button(type='submit') Actualizar Turno
+                label(for='updateIdPaciente') Paciente:
+                select(id='updateIdPaciente' name='updateIdPaciente' required)
+                  option(value='') Seleccionar paciente...
+              .form-group
+                label(for='updateIdMedico') Médico:
+                select(id='updateIdMedico' name='updateIdMedico' required)
+                  option(value='') Seleccionar médico...
+              button.submit-button(type='submit') Actualizar Turno
           .result#update-result
         
-        // Formulario Eliminar Turno (Modificado para usar dropdown)
+        // Formulario Eliminar Turno
         .form-section#delete-form
-          h3
-            i.fas.fa-trash-alt
-            | Eliminar Turno
-          .form-group
-            label(for='deleteTurnoSelect') Seleccionar Turno a Eliminar:
-            select(id='deleteTurnoSelect' name='deleteTurnoSelect' required)
-              option(value='') Seleccionar turno...
-            button.submit-button(onclick='deleteTurnoFromSelect()') Eliminar Turno Seleccionado
+          .info-card-header
+            h3
+              i.fas.fa-trash-alt
+              | Eliminar Turno
+          .form-content
+            .form-group
+              label(for='deleteTurnoSelect') Seleccionar Turno a Eliminar:
+              select(id='deleteTurnoSelect' name='deleteTurnoSelect' required)
+                option(value='') Seleccionar turno...
+            button.submit-button(onclick='deleteTurnoFromSelect()' style='background:#e53e3e;') Eliminar Turno Seleccionado
           .result#delete-result
 
-    // --- Script de la página de Turnos (modificado para íconos y IDs robustos) ---
+    //- --- SCRIPT REFACTORIZADO (Modificado para renderizar en contenedores) ---
     script.
       let pacientes = [];
       let medicos = [];
@@ -411,7 +488,6 @@ html(lang='es')
         }
       }
 
-      // Helpers para asegurar datos cargados antes de renderizar
       async function ensurePacientesLoaded() {
         if (!Array.isArray(pacientes) || pacientes.length === 0) {
           try {
@@ -484,14 +560,12 @@ html(lang='es')
         });
       }
 
-      // Ocultar/mostrar secciones de creación/actualización/eliminación de turnos según rol
-      // Ya existe en HTML la condición para .actions; nos aseguramos que solo admin vea los formularios de create/update/delete activables
       function showForm(formType) {
         const forms = document.querySelectorAll('.form-section');
         forms.forEach(form => form.classList.remove('active'));
         const target = document.getElementById(formType + '-form');
         if (!target) return;
-        // Restricción por rol: solo Administrativo puede abrir create/update/delete
+        
         if (formType !== 'read' && currentUserRole !== 'Administrativo') {
           showResult('read-result', 'Acción no permitida para tu rol. Usa "Consultar Turnos" para ver tus turnos.', false);
           document.getElementById('read-form').classList.add('active');
@@ -502,6 +576,7 @@ html(lang='es')
         results.forEach(result => {
           result.style.display = 'none';
           result.innerHTML = '';
+          result.className = 'result'; // Resetea clases
         });
       }
 
@@ -511,6 +586,14 @@ html(lang='es')
         result.innerHTML = `${iconHtml} ${message}`;
         result.className = 'result ' + (isSuccess ? 'success' : 'error');
         result.style.display = 'block';
+      }
+      
+      // --- MODIFICADO: Muestra resultados en el contenedor de grilla ---
+      function showCardResult(htmlContent, isSuccess = true) {
+        const container = document.getElementById('read-result');
+        container.className = 'result result-grid-container ' + (isSuccess ? 'success' : 'error');
+        container.style.display = 'block';
+        container.innerHTML = htmlContent;
       }
 
       async function createTurno(event) {
@@ -553,7 +636,6 @@ html(lang='es')
           const response = await fetch('/api/turnos');
           const result = await response.json();
       
-          // Si no es administrativo, filtramos por el usuario actual
           let data = Array.isArray(result.data) ? result.data : [];
           if (currentUserRole === 'Paciente' && currentPacienteId) {
             data = data.filter(t => (t.IdPaciente == currentPacienteId));
@@ -561,25 +643,17 @@ html(lang='es')
             data = data.filter(t => (t.IdMedico == currentMedicoId));
           }
       
-          // Agregamos nombres
-          data.forEach(turno => {
-            const medico = medicos.find(m => (m._id || m.IdMedico) == turno.IdMedico);
-            const paciente = pacientes.find(p => (p._id || p.IdPaciente) == turno.IdPaciente);
-            turno.Medico = medico ? medico.Nombre + ' ' + medico.Apellido : 'N/A';
-            turno.Paciente = paciente ? paciente.Nombre + ' ' + paciente.Apellido : 'N/A';
-          });
-      
           if (response.ok) {
-            let html = '<h4><i class="fas fa-clipboard-list"></i> Lista de Turnos:</h4><div class="cards-grid">';
-            result.data.slice(0, 10).forEach(turno => {
+            let html = `<h4><i class="fas fa-clipboard-list"></i> Lista de Turnos (${data.length}):</h4><div class="cards-grid">`;
+            data.forEach(turno => {
               const medico = medicos.find(m => (m._id || m.IdMedico) == turno.IdMedico);
               const paciente = pacientes.find(p => (p._id || p.IdPaciente) == turno.IdPaciente);
               const medicoNombre = medico ? medico.Nombre + ' ' + medico.Apellido : (turno.Medico || 'N/A');
               const pacienteNombre = paciente ? paciente.Nombre + ' ' + paciente.Apellido : (turno.Paciente || 'N/A');
-              html += `<div class="card turno-card" onclick="selectTurnoCard(this)" data-fecha="${formatDate(turno.Fecha)}" data-hora-inicio="${turno.HoraInicio}" data-hora-fin="${turno.HoraFin}" data-paciente="${pacienteNombre}" data-medico="${medicoNombre}">
+              html += `<div class="card turno-card" onclick="selectTurnoCard(this)" data-fecha="${formatDate(turno.Fecha)}" data-hora-inicio="${turno.HoraInicio || ''}" data-hora-fin="${turno.HoraFin || ''}" data-paciente="${pacienteNombre}" data-medico="${medicoNombre}">
                 <div class="card-header">
                   <i class="fas fa-calendar-check"></i>
-                  <div class="card-title">${formatDate(turno.Fecha)} ${turno.HoraInicio}-${turno.HoraFin}</div>
+                  <div class="card-title">${formatDate(turno.Fecha)} ${turno.HoraInicio || ''}-${turno.HoraFin || ''}</div>
                 </div>
                 <div class="card-body">
                   <p><i class="fas fa-user-injured"></i> Paciente: ${pacienteNombre}</p>
@@ -588,7 +662,7 @@ html(lang='es')
               </div>`;
             });
             html += '</div>';
-            showResult('read-result', html, true);
+            showCardResult(html, true); // --- MODIFICADO ---
           } else {
             showResult('read-result', `Error: ${result.message}`, false);
           }
@@ -611,15 +685,15 @@ html(lang='es')
             if (!result.data.length) {
               html += '<p>No hay turnos para esta fecha.</p>';
             }
-            result.data.slice(0, 10).forEach(turno => {
+            result.data.forEach(turno => {
               const paciente = pacientes.find(p => (p._id || p.IdPaciente) == turno.IdPaciente);
               const medico = medicos.find(m => (m._id || m.IdMedico) == turno.IdMedico);
               const medicoNombre = medico ? medico.Nombre + ' ' + medico.Apellido : 'N/A';
               const pacienteNombre = paciente ? paciente.Nombre + ' ' + paciente.Apellido : 'N/A';
-              html += `<div class="card turno-card" onclick="selectTurnoCard(this)" data-fecha="${formatDate(turno.Fecha)}" data-hora-inicio="${turno.HoraInicio}" data-hora-fin="${turno.HoraFin}" data-paciente="${pacienteNombre}" data-medico="${medicoNombre}">
+              html += `<div class="card turno-card" onclick="selectTurnoCard(this)" data-fecha="${formatDate(turno.Fecha)}" data-hora-inicio="${turno.HoraInicio || ''}" data-hora-fin="${turno.HoraFin || ''}" data-paciente="${pacienteNombre}" data-medico="${medicoNombre}">
                 <div class="card-header">
                   <i class="fas fa-calendar-check"></i>
-                  <div class="card-title">${formatDate(turno.Fecha)} ${turno.HoraInicio}-${turno.HoraFin}</div>
+                  <div class="card-title">${formatDate(turno.Fecha)} ${turno.HoraInicio || ''}-${turno.HoraFin || ''}</div>
                 </div>
                 <div class="card-body">
                   <p><i class="fas fa-user-injured"></i> Paciente: ${pacienteNombre}</p>
@@ -628,7 +702,7 @@ html(lang='es')
               </div>`;
             });
             html += '</div>';
-            showResult('read-result', html, true);
+            showCardResult(html, true); // --- MODIFICADO ---
           } else {
             showResult('read-result', `Error: ${result.message}`, false);
           }
@@ -641,25 +715,27 @@ html(lang='es')
         try {
           const response = await fetch('/api/turnos');
           const result = await response.json();
-      
-          // Agregamos al medico y paciente los nombres correspondientes
+          
+          if (!response.ok || !Array.isArray(result.data)) return;
+
+          // Asegura que los nombres estén
+          await ensurePacientesLoaded();
+          await ensureMedicosLoaded();
+
+          const select = document.getElementById(idSelect);
+          select.innerHTML = '<option value="">Seleccionar turno...</option>';
+          
           result.data.forEach(turno => {
             const medico = medicos.find(m => (m._id || m.IdMedico) == turno.IdMedico);
             const paciente = pacientes.find(p => (p._id || p.IdPaciente) == turno.IdPaciente);
             turno.Medico = medico ? medico.Nombre + ' ' + medico.Apellido : 'N/A';
             turno.Paciente = paciente ? paciente.Nombre + ' ' + paciente.Apellido : 'N/A';
+            
+            const option = document.createElement('option');
+            option.value = turno._id;
+            option.textContent = `${formatDate(turno.Fecha)} ${turno.HoraInicio || ''} | ${turno.Paciente} - ${turno.Medico}`;
+            select.appendChild(option);
           });
-      
-          if (response.ok) {
-            const select = document.getElementById(idSelect);
-            select.innerHTML = '<option value="">Seleccionar turno...</option>';
-            result.data.forEach(turno => {
-              const option = document.createElement('option');
-              option.value = turno._id;
-              option.textContent = `${formatDate(turno.Fecha)} ${turno.HoraInicio}-${turno.HoraFin} | ${turno.Paciente} - ${turno.Medico}`;
-              select.appendChild(option);
-            });
-          }
         } catch (error) {
           console.error('Error cargando turnos:', error);
         }
@@ -671,23 +747,29 @@ html(lang='es')
           showResult('read-result', 'Por favor seleccione un paciente', false);
           return;
         }
+        getTurnosByPacienteId(idPaciente); // Reutiliza la función
+      }
+
+      async function getTurnosByPacienteId(idPaciente) {
         try {
+          await ensureMedicosLoaded();
+          await ensurePacientesLoaded();
           const response = await fetch(`/api/turnos/paciente/${idPaciente}`);
           const result = await response.json();
           if (response.ok) {
             const paciente = pacientes.find(p => (p._id || p.IdPaciente) == idPaciente);
-            let html = `<h4><i class="fas fa-user-injured"></i> Turnos de ${paciente ? paciente.Nombre + ' ' + paciente.Apellido : 'Paciente'}:</h4><div class="cards-grid">`;
+            const pacienteNombre = paciente ? paciente.Nombre + ' ' + paciente.Apellido : 'Paciente';
+            let html = `<h4><i class="fas fa-user-injured"></i> Turnos de ${pacienteNombre}:</h4><div class="cards-grid">`;
             if (!result.data.length) {
               html += '<p>No hay turnos para este paciente.</p>';
             }
-            result.data.slice(0, 10).forEach(turno => {
+            result.data.forEach(turno => {
               const medico = medicos.find(m => (m._id || m.IdMedico) == turno.IdMedico);
               const medicoNombre = medico ? medico.Nombre + ' ' + medico.Apellido : 'N/A';
-              const pacienteNombre = paciente ? paciente.Nombre + ' ' + paciente.Apellido : 'Paciente';
-              html += `<div class="card turno-card" onclick="selectTurnoCard(this)" data-fecha="${formatDate(turno.Fecha)}" data-hora-inicio="${turno.HoraInicio}" data-hora-fin="${turno.HoraFin}" data-paciente="${pacienteNombre}" data-medico="${medicoNombre}">
+              html += `<div class="card turno-card" onclick="selectTurnoCard(this)" data-fecha="${formatDate(turno.Fecha)}" data-hora-inicio="${turno.HoraInicio || ''}" data-hora-fin="${turno.HoraFin || ''}" data-paciente="${pacienteNombre}" data-medico="${medicoNombre}">
                 <div class="card-header">
                   <i class="fas fa-calendar-check"></i>
-                  <div class="card-title">${formatDate(turno.Fecha)} ${turno.HoraInicio}-${turno.HoraFin}</div>
+                  <div class="card-title">${formatDate(turno.Fecha)} ${turno.HoraInicio || ''}-${turno.HoraFin || ''}</div>
                 </div>
                 <div class="card-body">
                   <p><i class="fas fa-user-injured"></i> Paciente: ${pacienteNombre}</p>
@@ -696,37 +778,7 @@ html(lang='es')
               </div>`;
             });
             html += '</div>';
-            showResult('read-result', html, true);
-          } else {
-            showResult('read-result', `Error: ${result.message}`, false);
-          }
-        } catch (error) {
-          showResult('read-result', `Error de conexión: ${error.message}`, false);
-        }
-      }
-
-      async function getTurnosByPacienteId(idPaciente) {
-        try {
-          // Aseguramos tener médicos y pacientes cargados
-          await ensureMedicosLoaded();
-          await ensurePacientesLoaded();
-
-          const response = await fetch(`/api/turnos/paciente/${idPaciente}`);
-          const result = await response.json();
-          if (response.ok) {
-            const paciente = pacientes.find(p => (p._id || p.IdPaciente) == idPaciente);
-            let html = `<h4><i class=\"fas fa-user-injured\"></i> Mis Turnos${paciente ? ' (' + paciente.Nombre + ' ' + paciente.Apellido + ')' : ''}:</h4><div class=\"cards-grid\">`;
-            if (result.data.length === 0) {
-              html += '<p>No hay turnos para tu cuenta.</p>';
-            }
-            result.data.slice(0, 10).forEach(turno => {
-              const medico = medicos.find(m => (m._id || m.IdMedico) == turno.IdMedico);
-              const medicoNombre = medico ? medico.Nombre + ' ' + medico.Apellido : 'N/A';
-              const pacienteNombre = paciente ? paciente.Nombre + ' ' + paciente.Apellido : 'Paciente';
-              html += `<div class=\"card turno-card\" onclick=\"selectTurnoCard(this)\" data-fecha=\"${formatDate(turno.Fecha)}\" data-hora-inicio=\"${turno.HoraInicio}\" data-hora-fin=\"${turno.HoraFin}\" data-paciente=\"${pacienteNombre}\" data-medico=\"${medicoNombre}\">\n                <div class=\"card-header\">\n                  <i class=\"fas fa-calendar-check\"></i>\n                  <div class=\"card-title\">${formatDate(turno.Fecha)} ${turno.HoraInicio}-${turno.HoraFin}</div>\n                </div>\n                <div class=\"card-body\">\n                  <p><i class=\"fas fa-user-injured\"></i> Paciente: ${pacienteNombre}</p>\n                  <p><i class=\"fas fa-user-md\"></i> Médico: ${medicoNombre}</p>\n                </div>\n              </div>`;
-            });
-            html += '</div>';
-            showResult('read-result', html, true);
+            showCardResult(html, true); // --- MODIFICADO ---
           } else {
             showResult('read-result', `Error: ${result.message}`, false);
           }
@@ -741,23 +793,29 @@ html(lang='es')
           showResult('read-result', 'Por favor seleccione un médico', false);
           return;
         }
+        getTurnosByMedicoId(idMedico); // Reutiliza la función
+      }
+
+      async function getTurnosByMedicoId(idMedico) {
         try {
+          await ensureMedicosLoaded();
+          await ensurePacientesLoaded();
           const response = await fetch(`/api/turnos/medico/${idMedico}`);
           const result = await response.json();
           if (response.ok) {
             const medico = medicos.find(m => (m._id || m.IdMedico) == idMedico);
-            let html = `<h4><i class="fas fa-user-md"></i> Turnos de ${medico ? medico.Nombre + ' ' + medico.Apellido : 'Médico'}:</h4><div class="cards-grid">`;
+            const medicoNombre = medico ? medico.Nombre + ' ' + medico.Apellido : 'Médico';
+            let html = `<h4><i class="fas fa-user-md"></i> Turnos de ${medicoNombre}:</h4><div class="cards-grid">`;
             if (!result.data.length) {
               html += '<p>No hay turnos para este médico.</p>';
             }
-            result.data.slice(0, 10).forEach(turno => {
+            result.data.forEach(turno => {
               const paciente = pacientes.find(p => (p._id || p.IdPaciente) == turno.IdPaciente);
               const pacienteNombre = paciente ? paciente.Nombre + ' ' + paciente.Apellido : 'N/A';
-              const medicoNombre = medico ? medico.Nombre + ' ' + medico.Apellido : 'Médico';
-              html += `<div class="card turno-card" onclick="selectTurnoCard(this)" data-fecha="${formatDate(turno.Fecha)}" data-hora-inicio="${turno.HoraInicio}" data-hora-fin="${turno.HoraFin}" data-paciente="${pacienteNombre}" data-medico="${medicoNombre}">
+              html += `<div class="card turno-card" onclick="selectTurnoCard(this)" data-fecha="${formatDate(turno.Fecha)}" data-hora-inicio="${turno.HoraInicio || ''}" data-hora-fin="${turno.HoraFin || ''}" data-paciente="${pacienteNombre}" data-medico="${medicoNombre}">
                 <div class="card-header">
                   <i class="fas fa-calendar-check"></i>
-                  <div class="card-title">${formatDate(turno.Fecha)} ${turno.HoraInicio}-${turno.HoraFin}</div>
+                  <div class="card-title">${formatDate(turno.Fecha)} ${turno.HoraInicio || ''}-${turno.HoraFin || ''}</div>
                 </div>
                 <div class="card-body">
                   <p><i class="fas fa-user-injured"></i> Paciente: ${pacienteNombre}</p>
@@ -766,37 +824,7 @@ html(lang='es')
               </div>`;
             });
             html += '</div>';
-            showResult('read-result', html, true);
-          } else {
-            showResult('read-result', `Error: ${result.message}`, false);
-          }
-        } catch (error) {
-          showResult('read-result', `Error de conexión: ${error.message}`, false);
-        }
-      }
-
-      async function getTurnosByMedicoId(idMedico) {
-        try {
-          // Aseguramos tener médicos y pacientes cargados
-          await ensureMedicosLoaded();
-          await ensurePacientesLoaded();
-
-          const response = await fetch(`/api/turnos/medico/${idMedico}`);
-          const result = await response.json();
-          if (response.ok) {
-            const medico = medicos.find(m => (m._id || m.IdMedico) == idMedico);
-            let html = `<h4><i class=\"fas fa-user-md\"></i> Mis Turnos${medico ? ' (' + medico.Nombre + ' ' + medico.Apellido + ')' : ''}:</h4><div class=\"cards-grid\">`;
-            if (result.data.length === 0) {
-              html += '<p>No hay turnos para tu cuenta.</p>';
-            }
-            result.data.slice(0, 10).forEach(turno => {
-              const paciente = pacientes.find(p => (p._id || p.IdPaciente) == turno.IdPaciente);
-              const pacienteNombre = paciente ? paciente.Nombre + ' ' + paciente.Apellido : 'N/A';
-              const medicoNombre = medico ? medico.Nombre + ' ' + medico.Apellido : 'Médico';
-              html += `<div class=\"card turno-card\" onclick=\"selectTurnoCard(this)\" data-fecha=\"${formatDate(turno.Fecha)}\" data-hora-inicio=\"${turno.HoraInicio}\" data-hora-fin=\"${turno.HoraFin}\" data-paciente=\"${pacienteNombre}\" data-medico=\"${medicoNombre}\">\n                <div class=\"card-header\">\n                  <i class=\"fas fa-calendar-check\"></i>\n                  <div class=\"card-title\">${formatDate(turno.Fecha)} ${turno.HoraInicio}-${turno.HoraFin}</div>\n                </div>\n                <div class=\"card-body\">\n                  <p><i class=\"fas fa-user-injured\"></i> Paciente: ${pacienteNombre}</p>\n                  <p><i class=\"fas fa-user-md\"></i> Médico: ${medicoNombre}</p>\n                </div>\n              </div>`;
-            });
-            html += '</div>';
-            showResult('read-result', html, true);
+            showCardResult(html, true); // --- MODIFICADO ---
           } else {
             showResult('read-result', `Error: ${result.message}`, false);
           }
@@ -816,7 +844,7 @@ html(lang='es')
           const result = await response.json();
           if (response.ok) {
             const t = result.data;
-            document.getElementById('updateFecha').value = t.Fecha.split('T')[0]; // Formatear para input date
+            document.getElementById('updateFecha').value = t.Fecha.split('T')[0];
             document.getElementById('updateHoraInicio').value = t.HoraInicio;
             document.getElementById('updateHoraFin').value = t.HoraFin;
             document.getElementById('updateIdPaciente').value = t.IdPaciente;
@@ -891,7 +919,6 @@ html(lang='es')
         }
       }
 
-    script.
       async function logout(){
         try {
           const response = await fetch('/api/auth/logout', { method: 'POST' });
@@ -907,6 +934,7 @@ html(lang='es')
         }
       }
 
+      // --- MODIFICADO: Muestra la tarjeta seleccionada en el contenedor ---
       function selectTurnoCard(el) {
         try {
           const fecha = el.dataset.fecha || '';
@@ -914,19 +942,20 @@ html(lang='es')
           const horaFin = el.dataset.horaFin || '';
           const paciente = el.dataset.paciente || 'N/A';
           const medico = el.dataset.medico || 'N/A';
-          const html = `<div class="cards-grid">
-            <div class="card">
-              <div class="card-header">
-                <i class="fas fa-calendar-check"></i>
-                <div class="card-title">${fecha} ${horaInicio}-${horaFin}</div>
+          const html = `<h4><i class="fas fa-check-circle"></i> Turno Seleccionado:</h4>
+            <div class="cards-grid" style="grid-template-columns: 1fr;">
+              <div class="card">
+                <div class="card-header">
+                  <i class="fas fa-calendar-check"></i>
+                  <div class="card-title">${fecha} ${horaInicio}-${horaFin}</div>
+                </div>
+                <div class="card-body">
+                  <p><i class="fas fa-user-injured"></i> Paciente: ${paciente}</p>
+                  <p><i class="fas fa-user-md"></i> Médico: ${medico}</p>
+                </div>
               </div>
-              <div class="card-body">
-                <p><i class="fas fa-user-injured"></i> Paciente: ${paciente}</p>
-                <p><i class="fas fa-user-md"></i> Médico: ${medico}</p>
-              </div>
-            </div>
-          </div>`;
-          showResult('read-result', html, true);
+            </div>`;
+          showCardResult(html, true); // --- MODIFICADO ---
         } catch (e) {
           console.error('Error al mostrar detalle del turno:', e);
         }

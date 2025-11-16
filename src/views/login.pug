@@ -49,6 +49,7 @@ html(lang='es')
         color: white;
       }
       
+      /* --- (MODIFICADO) --- */
       .logo {
         width: 60px;
         height: 60px;
@@ -57,10 +58,12 @@ html(lang='es')
         display: flex;
         align-items: center;
         justify-content: center;
-        font-weight: 700;
-        font-size: 26px;
+        /* font-weight: 700; */ /* Ya no es necesario */
+        font-size: 2.2em; /* Ajustado para el ícono */
+        color: white; /* Asegura que el ícono sea blanco */
         margin: 0 auto 20px;
       }
+      /* --- (FIN MODIFICADO) --- */
       
       .login-sidebar h1 {
         margin: 0 0 8px 0;
@@ -323,7 +326,10 @@ html(lang='es')
     .login-wrapper
       .login-container
         .login-sidebar
-          .logo SI
+          //- --- (MODIFICADO) ---
+          .logo
+            i.fas.fa-star-of-life
+          //- --- (FIN MODIFICADO) ---
           h1 Iniciar Sesión
           p.subtitle Clínica Salud Integral
           
